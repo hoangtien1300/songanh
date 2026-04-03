@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thống kê Tự động - Antigravity SEO Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Outfit', sans-serif; background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%); min-height: 100vh; }
+        
+        .glass-panel { background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.5); }
+        .glass-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.7); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); transition: all 0.3s ease; }
+        .glass-card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04); }
+        
+        .sticky-col { position: sticky; left: 0; background: rgba(255, 255, 255, 0.95); z-index: 10; border-right: 2px solid #f1f5f9; }
+        .sticky-header { position: sticky; top: 0; background: rgba(248, 250, 252, 0.95); backdrop-filter: blur(5px); z-index: 20; }
+        
+        .rank-up { color: #10b981; font-weight: 700; } 
+        .rank-down { color: #ef4444; font-weight: 700; } 
+        .rank-stable { color: #94a3b8; }
+        .rank-none { color: #cbd5e1; font-style: italic; }
+        
+        .sparkline-container { width: 100px; height: 35px; }
+        .table-container { max-height: 600px; overflow-y: auto; overflow-x: auto; scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent; }
+        .table-container::-webkit-scrollbar { width: 6px; height: 6px; }
+        .table-container::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        
+        #loader { transition: opacity 0.3s ease; }
+        .spinner { border: 4px solid rgba(0,0,0,0.1); width: 40px; height: 40px; border-radius: 50%; border-left-color: #3b82f6; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        .tab-content { animation: fadeIn 0.4s ease forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div id="loader" class="fixed inset-0 bg-white/80 backdrop-blur-sm z-50 flex flex-col items-center justify-center">
+        <div class="spinner mb-4"></div>
+        <p class="text-slate-600 font-medium animate-pulse">Đang tải và tính toán dữ liệu từ Google Sheets...</p>
+    </div>
+
+    <div class="max-w-7xl mx-auto" id="dashboard-capture">
+        
+        <!-- Header & Nav -->
+        <div class="glass-panel rounded-2xl p-6 mb-8 flex flex-col xl:flex-row justify-between items-center gap-6 shadow-sm">
+            <div class="flex items-center gap-4 w-full xl:w-auto">
+                <div class="h-14 w-14 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Antigravity Master SEO</h1>
+                    <p class="text-sm text-slate-500 flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        Tự động đồng bộ Live - Rolling 7 Days
+                    </p>
+                </div>
+            </div>
+
+            <!-- TABS -->
+            <div class="flex flex-wrap gap-2 w-full xl:w-auto bg-slate-100 p-1.5 rounded-xl border border-slate-200">
+                <button onclick="switchTab('tab1')" id="btn-tab1" class="tab-btn flex-1 xl:flex-none px-6 py-2.5 rounded-lg font-semibold text-sm transition-all duration-300 bg-white text-blue-600 shadow-sm ring-1 ring-slate-200/50">Mô hình kiến trúc VN</button>
+                <button onclick="switchTab('tab2')" id="btn-tab2" class="tab-btn flex-1 xl:flex-none px-6 py-2.5 rounded-lg font-medium text-sm transition-all duration-300 text-slate-500 hover:text-slate-700 hover:bg-white/50">Architectural Model QT</button>
+                <button onclick="switchTab('tab3')" id="btn-tab3" class="tab-btn flex-1 xl:flex-none px-6 py-2.5 rounded-lg font-medium text-sm transition-all duration-300 text-slate-500 hover:text-slate-700 hover:bg-white/50">Mô hình Song Anh</button>
+            </div>
+
+            <button onclick="exportReport()" class="w-full xl:w-auto px-6 py-3 bg-slate-900 text-white text-sm font-semibold rounded-xl hover:bg-slate-800 transition shadow-lg flex items-center justify-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                Export Báo Cáo
+            </button>
+        </div>
+
+        <!-- BẢNG TỔNG QUAN -->
+        <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+            <svg class="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-11v4l3 3-1.4 1.4-3.6-3.6V7h2z" clip-rule="evenodd"/></svg>
+            Báo Cáo Tổng Quan (Tuần / Ngày)
+        </h2>
+        
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div class="glass-card rounded-2xl p-5">
+                <p class="text-xs text-slate-500 font-semibold uppercase tracking-wider mb-1">Tổng Từ Khóa</p>
+                <div class="flex items-baseline gap-2"><h3 class="text-3xl font-bold text-slate-900" id="m-total">0</h3></div>
+                <p class="text-[11px] text-slate-400 mt-2">Đang trong chiến dịch</p>
+            </div>
+            
+            <div class="glass-card rounded-2xl p-5">
+                <p class="text-xs text-amber-600 font-semibold uppercase tracking-wider mb-1">Vị Trí TOP 3</p>
+                <div class="flex items-baseline gap-2"><h3 class="text-3xl font-bold text-amber-500" id="m-top3">0</h3></div>
+                <div class="flex items-center gap-4 mt-2 text-[11px] font-medium">
+                    <span id="m-top3-d1" class="text-slate-500">vs T-1: -</span>
+                    <span id="m-top3-d7" class="text-slate-500">vs T-7: -</span>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-2xl p-5">
+                <p class="text-xs text-blue-600 font-semibold uppercase tracking-wider mb-1">Vị Trí TOP 10</p>
+                <div class="flex items-baseline gap-2"><h3 class="text-3xl font-bold text-blue-500" id="m-top10">0</h3></div>
+                <div class="flex items-center gap-4 mt-2 text-[11px] font-medium">
+                    <span id="m-top10-d1" class="text-slate-500">vs T-1: -</span>
+                    <span id="m-top10-d7" class="text-slate-500">vs T-7: -</span>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-2xl p-5">
+                <p class="text-xs text-emerald-600 font-semibold uppercase tracking-wider mb-1">Tỉ Lệ Tăng Hạng</p>
+                <div class="flex flex-col gap-1 mt-1">
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-slate-500">Tăng:</span>
+                        <span class="font-bold text-emerald-500" id="m-rate-up">0%</span>
+                    </div>
+                    <div class="w-full bg-slate-100 rounded-full h-1.5 mb-2"><div class="bg-emerald-400 h-1.5 rounded-full" id="m-bar-up" style="width: 0%"></div></div>
+                    
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-slate-500">Giảm:</span>
+                        <span class="font-bold text-rose-500" id="m-rate-down">0%</span>
+                    </div>
+                    <div class="w-full bg-slate-100 rounded-full h-1.5"><div class="bg-rose-400 h-1.5 rounded-full" id="m-bar-down" style="width: 0%"></div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BẢNG ROLLING 7 DAYS -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden mb-8 tab-content" id="list-section">
+            <div class="px-6 py-4 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
+                <h3 class="font-bold text-slate-800" id="table-title">Chi tiết Diễn biến (7 Ngày gần nhất)</h3>
+                <span class="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-md font-medium" id="date-range-badge">Loading...</span>
+            </div>
+            <div class="table-container">
+                <table class="w-full text-sm text-left border-collapse" id="ranking-table">
+                    <thead class="sticky-header">
+                        <tr class="text-slate-500 font-bold text-[11px] uppercase tracking-wider border-b border-slate-200">
+                            <th class="px-3 py-4 sticky-col">STT</th>
+                            <th class="px-3 py-4 sticky-col" style="left: 48px; min-width: 180px;">Từ khóa</th>
+                            <th class="px-3 py-4" style="min-width: 250px;">URL đích</th>
+                            <th class="px-3 py-4 text-center">Vol</th>
+                            
+                            <th id="th-d6" class="px-3 py-4 text-center">T-6</th>
+                            <th id="th-d5" class="px-3 py-4 text-center">T-5</th>
+                            <th id="th-d4" class="px-3 py-4 text-center">T-4</th>
+                            <th id="th-d3" class="px-3 py-4 text-center">T-3</th>
+                            <th id="th-d2" class="px-3 py-4 text-center">T-2</th>
+                            <th id="th-d1" class="px-3 py-4 text-center">T-1</th>
+                            <th id="th-d0" class="px-3 py-4 text-center bg-blue-50 text-blue-800 border-x border-blue-100 shadow-sm relative z-30">Hôm nay</th>
+                            
+                            <th class="px-3 py-4 text-center leading-tight">Biến động<br><span class="text-[9px] font-normal text-slate-400 normal-case">(So với T-1)</span></th>
+                            <th class="px-3 py-4 text-center min-w-[120px]">Đường xu hướng</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+    </div>
+
+    <script>
+        const SPREADSHEET_ID = '1lrm94N_ej-qbfGmRWVmx6WcmQHHXubCcH84t2UZJ8w8';
+        const URLS = {
+            'tab1': `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&gid=831977248`, 
+            'tab2': `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&gid=1050733309`,
+            'tab3': `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&gid=1263154050` 
+        };
+
+        const TAB_NAMES = {
+            'tab1': 'Dự án Mô Hình Kiến Trúc (VN)',
+            'tab2': 'Dự án Architectural Model (Global)',
+            'tab3': 'Dự án Mô Hình Song Anh'
+        };
+
+        let currentTab = 'tab1';
+        let chartInstances = [];
+        let cachedData = {};
+
+        document.addEventListener('DOMContentLoaded', () => loadData(currentTab));
+
+        function switchTab(tabId) {
+            if (currentTab === tabId) return;
+            currentTab = tabId;
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = "tab-btn flex-1 xl:flex-none px-6 py-2.5 rounded-lg font-medium text-sm transition-all duration-300 text-slate-500 hover:text-slate-700 hover:bg-white/50";
+            });
+            let activeBtn = document.getElementById('btn-' + tabId);
+            activeBtn.className = "tab-btn flex-1 xl:flex-none px-6 py-2.5 rounded-lg font-semibold text-sm transition-all duration-300 bg-white text-blue-600 shadow-sm ring-1 ring-slate-200/50";
+            
+            document.getElementById('table-title').innerText = `Chi tiết Diễn biến - ${TAB_NAMES[tabId]}`;
+            
+            if (cachedData[tabId]) {
+                processAndRender(cachedData[tabId]);
+            } else {
+                loadData(tabId);
+            }
+        }
+
+        function loadData(tabId) {
+            showLoader();
+            Papa.parse(URLS[tabId], {
+                download: true,
+                header: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    if(results.errors.length > 0 && results.data.length === 0) {
+                        tryProxyFallback(tabId);
+                        return;
+                    }
+                    cachedData[tabId] = results.data;
+                    processAndRender(results.data);
+                    hideLoader();
+                },
+                error: function(err) {
+                    tryProxyFallback(tabId);
+                }
+            });
+        }
+
+        function tryProxyFallback(tabId) {
+            let proxyUrl = "https://api.allorigins.win/raw?url=" + encodeURIComponent(URLS[tabId]);
+            Papa.parse(proxyUrl, {
+                download: true,
+                header: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    if(results.errors.length > 0 && results.data.length === 0) {
+                        alert("Lỗi bảo mật CORS từ trình duyệt. Xin vui lòng Cài tiện ích Allow CORS hoặc Publish file.");
+                        hideLoader();
+                        return;
+                    }
+                    cachedData[tabId] = results.data;
+                    processAndRender(results.data);
+                    hideLoader();
+                },
+                error: function() {
+                    alert("Không thể tải Dữ liệu. Trình duyệt liên tục chặn truy xuất.");
+                    hideLoader();
+                }
+            });
+        }
+
+        function getRankVal(val) {
+            if (!val || val.trim() === '' || val.trim() === '-') return 101; 
+            let num = parseInt(val);
+            return isNaN(num) ? 101 : num;
+        }
+
+        function processAndRender(dataArray) {
+            if (!dataArray || dataArray.length === 0) {
+                document.getElementById('table-body').innerHTML = `<tr><td colspan="13" class="text-center py-8 text-slate-400">Chưa có dữ liệu cho Tab này</td></tr>`;
+                return;
+            }
+
+            const allHeaders = Object.keys(dataArray[0]);
+            const baseHeaders = allHeaders.filter(h => ['từ khóa', 'keyword', 'url', 'link', 'volume', 'tìm kiếm/tháng', 'vol'].includes(h.toLowerCase()));
+            const dateHeaders = allHeaders.filter(h => !baseHeaders.includes(h));
+
+            const last7DaysHeaders = dateHeaders.slice(-7);
+            
+            // Xếp Header: Từ Cũ nhất (T-6) -> Mới nhất (T-0)
+            for (let i = 0; i < 7; i++) {
+                const headerEl = document.getElementById(`th-d${6-i}`);
+                if (headerEl) {
+                    headerEl.innerText = last7DaysHeaders[i] ? last7DaysHeaders[i] : 'N/A';
+                    if (i === 6) headerEl.innerHTML = (last7DaysHeaders[i] || 'Hôm nay') + '<br><span class="text-[9px] uppercase">Mới nhất</span>';
+                }
+            }
+
+            if(last7DaysHeaders.length > 0) {
+                document.getElementById('date-range-badge').innerText = `${last7DaysHeaders[0]} ➔ ${last7DaysHeaders[last7DaysHeaders.length-1]}`;
+            }
+
+            chartInstances.forEach(c => c.destroy());
+            chartInstances = [];
+
+            let htmlArr = [];
+            let m_total = 0, m_top3_t0 = 0, m_top3_t1 = 0, m_top3_t7 = 0;
+            let m_top10_t0 = 0, m_top10_t1 = 0, m_top10_t7 = 0;
+            let keywordsUp = 0, keywordsDown = 0;
+
+            const t0_key = last7DaysHeaders[last7DaysHeaders.length - 1]; 
+            const t1_key = last7DaysHeaders.length > 1 ? last7DaysHeaders[last7DaysHeaders.length - 2] : null;
+            const t7_key = last7DaysHeaders[0]; 
+
+            let displayIndex = 1;
+
+            dataArray.forEach((row, index) => {
+                const kw = row['Từ khóa'] || row['Keyword'] || '';
+                
+                // GIẢI PHÁP LỌC: Bỏ qua các từ khoá rác từ tên dự án
+                if (!kw || kw.toLowerCase().includes('-org') || kw.toLowerCase().includes('.com') || kw === 'Từ khóa') return;
+
+                const url = row['URL'] || row['Link'] || '';
+                const volStr = row['Volume'] || row['Tìm kiếm/Tháng'] || row['Vol'] || '0';
+                
+                m_total++;
+
+                let rowtds = "";
+                let rArrayRaw = []; 
+                
+                // Thu thập raw array từ cũ đến mới (để ném cho Chart.js)
+                last7DaysHeaders.forEach(dh => rArrayRaw.push(getRankVal(row[dh])));
+
+                // Render Table Cột từ Cũ nhất (0) -> Mới nhất (cuối mảng)
+                for (let i = 0; i < last7DaysHeaders.length; i++) {
+                    const dh = last7DaysHeaders[i];
+                    const rNum = getRankVal(row[dh]);
+                    const isToday = (i === last7DaysHeaders.length - 1);
+                    const disp = (rNum > 100) ? '<span class="rank-none">-</span>' : rNum;
+                    
+                    let cls = 'rank-stable';
+                    if (i > 0) { // Có ngày ngay trước nó
+                        let prevNum = getRankVal(row[last7DaysHeaders[i-1]]);
+                        if (rNum < prevNum) cls = 'rank-up';
+                        else if (rNum > prevNum) cls = 'rank-down';
+                    }
+
+                    rowtds += `<td class="px-3 py-4 text-center ${cls} ${isToday ? 'bg-blue-50/50 font-bold border-x border-blue-100/50' : ''}">${disp}</td>`;
+                }
+
+                // Tính Metrics
+                const r_t0 = getRankVal(row[t0_key]);
+                const r_t1 = t1_key ? getRankVal(row[t1_key]) : r_t0;
+                const r_t7 = t7_key ? getRankVal(row[t7_key]) : r_t0;
+
+                if (r_t0 <= 3) m_top3_t0++;
+                if (r_t1 <= 3) m_top3_t1++;
+                if (r_t7 <= 3) m_top3_t7++;
+
+                if (r_t0 <= 10) m_top10_t0++;
+                if (r_t1 <= 10) m_top10_t1++;
+                if (r_t7 <= 10) m_top10_t7++;
+
+                if (r_t0 < r_t1) keywordsUp++;
+                if (r_t0 > r_t1) keywordsDown++;
+
+                // Biến động T-0 vs T-1
+                let changeHtml = '<span class="text-slate-300">-</span>';
+                if (r_t0 !== 101 && r_t1 !== 101) {
+                    let diff = r_t1 - r_t0; 
+                    if (diff > 0) changeHtml = `<span class="rank-up px-2 py-1 bg-emerald-50 rounded-md">▲ +${diff}</span>`;
+                    else if (diff < 0) changeHtml = `<span class="rank-down px-2 py-1 bg-rose-50 rounded-md">▼ ${diff}</span>`;
+                } else if (r_t0 < 101 && r_t1 === 101) {
+                    changeHtml = `<span class="rank-up px-2 py-1 bg-emerald-50 rounded-md">▲ Vô (T${r_t0})</span>`;
+                } else if (r_t0 === 101 && r_t1 < 101) {
+                    changeHtml = `<span class="rank-down px-2 py-1 bg-rose-50 rounded-md">▼ Mất</span>`;
+                }
+
+                /** Cải tiến UI: Sử dụng break-words cho URL để hiển thị đủ, KHÔNG TRUNCATE */
+                let displayUrl = url ? url.replace(/^https?:\/\/(www\.)?/, '') : '-';
+                
+                htmlArr.push(`
+                    <tr class="border-b border-slate-50 hover:bg-white transition-colors duration-200">
+                        <td class="px-3 py-4 sticky-col text-slate-400 font-medium text-[12px] bg-slate-50/30">${displayIndex++}</td>
+                        <td class="px-3 py-4 sticky-col font-bold text-slate-800 bg-slate-50/30 whitespace-normal leading-tight break-words" style="left: 48px;">${kw}</td>
+                        <td class="px-3 py-4 text-blue-600 text-[11px] whitespace-normal break-all leading-tight">
+                            <a href="${url}" target="_blank" class="hover:underline">${displayUrl}</a>
+                        </td>
+                        <td class="px-3 py-4 text-center text-slate-500">${Number(strVolToInt(volStr)).toLocaleString()}</td>
+                        ${rowtds}
+                        <td class="px-3 py-4 text-center text-[13px]">${changeHtml}</td>
+                        <td class="px-3 py-3"><div class="sparkline-container mx-auto"><canvas id="chart-${displayIndex-1}"></canvas></div></td>
+                    </tr>
+                `);
+                
+                setTimeout(() => renderSparkline(`chart-${displayIndex-1}`, rArrayRaw), 0);
+            });
+
+            document.getElementById('table-body').innerHTML = htmlArr.join('');
+
+            document.getElementById('m-total').innerText = m_total;
+            document.getElementById('m-top3').innerText = m_top3_t0;
+            document.getElementById('m-top10').innerText = m_top10_t0;
+
+            renderDiffSpan('m-top3-d1', 'T-1', m_top3_t0 - m_top3_t1);
+            renderDiffSpan('m-top3-d7', 'T-7', m_top3_t0 - m_top3_t7);
+            renderDiffSpan('m-top10-d1', 'T-1', m_top10_t0 - m_top10_t1);
+            renderDiffSpan('m-top10-d7', 'T-7', m_top10_t0 - m_top10_t7);
+
+            let rateUp = m_total > 0 ? ((keywordsUp / m_total)*100).toFixed(1) : 0;
+            let rateDown = m_total > 0 ? ((keywordsDown / m_total)*100).toFixed(1) : 0;
+            
+            document.getElementById('m-rate-up').innerText = rateUp + '%';
+            document.getElementById('m-bar-up').style.width = rateUp + '%';
+            document.getElementById('m-rate-down').innerText = rateDown + '%';
+            document.getElementById('m-bar-down').style.width = rateDown + '%';
+        }
+
+        function strVolToInt(str) {
+            return parseInt(str.toString().replace(/,/g, '')) || 0;
+        }
+
+        function renderDiffSpan(id, prefix, diff) {
+            const el = document.getElementById(id);
+            if(diff > 0) el.innerHTML = `${prefix}: <span class="text-emerald-500 font-bold">▲ +${diff}</span>`;
+            else if(diff < 0) el.innerHTML = `${prefix}: <span class="text-rose-500 font-bold">▼ ${diff}</span>`;
+            else el.innerHTML = `${prefix}: <span class="text-slate-400">➖ 0</span>`;
+        }
+
+        function renderSparkline(canvasId, grades) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const invData = grades.map((v, i) => (v === 101 ? -1 : 101 - v)); 
+            
+            let color = '#94a3b8'; 
+            let first = grades[0] !== 101 ? grades[0] : 100;
+            let last = grades[grades.length-1] !== 101 ? grades[grades.length-1] : 100;
+            
+            if (last < first) color = '#10b981'; 
+            else if (last > first) color = '#f43f5e'; 
+
+            const chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [1,2,3,4,5,6,7],
+                    datasets: [{
+                        data: invData,
+                        borderColor: color,
+                        borderWidth: 2,
+                        pointRadius: 1,
+                        pointHoverRadius: 0,
+                        backgroundColor: color,
+                        fill: false,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                    scales: {
+                        x: { display: false },
+                        y: { display: false, suggestedMin: -2, suggestedMax: 101 }
+                    },
+                    animation: false
+                }
+            });
+            chartInstances.push(chart);
+        }
+
+        function showLoader() { document.getElementById('loader').style.display = 'flex'; document.getElementById('loader').style.opacity = '1'; }
+        function hideLoader() { document.getElementById('loader').style.opacity = '0'; setTimeout(()=> {document.getElementById('loader').style.display = 'none';},300); }
+
+        async function exportReport() {
+            var element = document.getElementById('dashboard-capture');
+            var btn = event.currentTarget;
+            let originalText = btn.innerHTML;
+            btn.innerHTML = `<div class="spinner border-t-white w-4 h-4 border-[2px] mr-2"></div> Đang xử lý...`;
+            
+            try {
+                let tblContainer = document.querySelector('.table-container');
+                let oldMaxHeight = tblContainer.style.maxHeight;
+                tblContainer.style.maxHeight = 'none';
+                tblContainer.style.overflow = 'visible';
+
+                const canvas = await html2canvas(element, { scale: 2, useCORS: true, backgroundColor: '#f8fafc' });
+                
+                tblContainer.style.maxHeight = oldMaxHeight;
+                tblContainer.style.overflow = 'auto';
+
+                const imgData = canvas.toDataURL('image/jpeg', 0.9);
+                const pdf = new jspdf.jsPDF({
+                    orientation: 'portrait',
+                    unit: 'px',
+                    format: [canvas.width, canvas.height]
+                });
+                pdf.addImage(imgData, 'JPEG', 0, 0, canvas.width, canvas.height);
+                
+                let today = new Date();
+                let filename = `Bao_Cao_SEO_${currentTab}_${today.getDate()}_${today.getMonth()+1}.pdf`;
+                pdf.save(filename);
+            } catch(e) {
+                alert("Lỗi khi Export PDF: " + e.message);
+            } finally {
+                btn.innerHTML = originalText;
+            }
+        }
+    </script>
+</body>
+</html>
