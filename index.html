@@ -251,7 +251,7 @@
         <!-- Trích xuất dữ liệu chi tiết Fanpage -->
         <section id="fanpage-details">
             <h2 class="text-lg sm:text-xl font-bold text-gray-900 mb-4 border-l-4 border-blue-600 pl-3 uppercase">FACEBOOK</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 <!-- Page 1 -->
                 <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-5 border-t-4 border-t-gray-400">
                     <h3 class="font-bold text-gray-800 text-base sm:text-lg mb-4 border-b pb-2 flex justify-between items-center">
@@ -373,6 +373,118 @@
 
             
             <div id="sector-view-thuongmai" class="hidden space-y-8 sm:space-y-12">
+                <!-- DUPLICATED GSC -->
+                <section id="thuongmai-gsc">
+                <!-- Chuyển đổi Sales/Leads -->
+            <div class="bg-blue-50 border border-blue-200 p-4 sm:p-6 rounded-xl mb-8 flex flex-col sm:flex-row items-center justify-between shadow-sm gap-4">
+                <div class="text-center sm:text-left">
+                    <h3 class="text-lg sm:text-xl font-bold text-blue-900 flex items-center justify-center sm:justify-start"><span class="mr-2">🎯</span> Tổng lượt khách liên hệ</h3>
+                    <p class="text-blue-700 text-xs sm:text-sm mt-1">Số lượng khách hàng mới <span id="customer-time-label-tm" class="font-semibold"></span>.</p>
+                </div>
+                <div class="text-center bg-white px-6 sm:px-8 py-2 sm:py-3 rounded-lg shadow-sm border border-blue-100 min-w-[120px] sm:min-w-[150px]">
+                    <span class="block text-3xl sm:text-4xl font-extrabold text-blue-600">10</span>
+                    <span class="block text-[10px] sm:text-xs text-gray-500 uppercase font-semibold mt-1">Khách Hàng</span>
+                </div>
+            </div>
+
+            <!-- GSC Module -->
+            <h3 class="text-lg lg:text-xl font-bold text-gray-800 mb-4 border-l-4 border-blue-400 pl-3">Google Search Console</h3>
+            
+            <!-- Control Header -->
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                
+                <!-- Tabs -->
+                <div class="flex flex-wrap gap-2 lg:gap-3 bg-white p-1.5 rounded-lg border border-gray-200 shadow-sm w-full md:w-auto overflow-x-auto hide-scrollbar">
+                    <button class="gsc-tab whitespace-nowrap px-4 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors bg-blue-100 text-blue-800" data-metric="clicks">Tổng số nhấp</button>
+                    <button class="gsc-tab whitespace-nowrap px-4 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors text-gray-600 hover:bg-gray-100" data-metric="impressions">Hiển thị</button>
+                    <button class="gsc-tab whitespace-nowrap px-4 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors text-gray-600 hover:bg-gray-100" data-metric="ctr">CTR (%)</button>
+                    <button class="gsc-tab whitespace-nowrap px-4 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors text-gray-600 hover:bg-gray-100" data-metric="position">Vị trí TB</button>
+                </div>
+
+                <!-- Time Filter Dropdown -->
+                <div class="relative w-full md:w-auto">
+                    <select id="gsc-timefilter-tm" class="w-full appearance-none bg-white border border-gray-300 text-gray-700 py-2.5 pl-4 pr-10 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm font-medium cursor-pointer">
+                        <option value="7d">7 ngày gần nhất</option>
+                        <option value="30d">30 ngày qua</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-700">
+                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Websites Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6">
+                <!-- Web 1 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-5 border-t-4 border-t-blue-500 flex flex-col hover:shadow-md transition-shadow">
+                    <div class="flex justify-between items-start border-b pb-3 mb-4">
+                        <h3 class="font-bold text-gray-800 text-sm xl:text-base pr-2 truncate" title="mohinhkientruc.org (Portfolio)">mohinhkientruc.org</h3>
+                        <span class="text-[10px] bg-blue-50 border border-blue-100 text-blue-700 px-2 py-0.5 rounded uppercase font-bold tracking-wider flex-shrink-0">Portfolio</span>
+                    </div>
+                    <div class="mb-5 flex-grow">
+                        <p class="text-[10px] sm:text-xs text-gray-500 uppercase font-semibold gsc-metric-label">Tổng số Nhấp</p>
+                        <div class="flex justify-between items-baseline mt-1">
+                            <h3 class="text-2xl sm:text-3xl font-extrabold text-blue-700 gsc-total-val" id="total-w4">--</h3>
+                            <span class="text-xs font-semibold px-2 py-1 rounded bg-green-100 text-green-700 gsc-trend transition-colors" id="trend-w4">--%</span>
+                        </div>
+                    </div>
+                    <!-- Chart Canvas -->
+                    <div class="h-32 sm:h-40 w-full mt-auto">
+                        <canvas id="chart-w4"></canvas>
+                    </div>
+                </div>
+
+                <!-- Web 2 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-5 border-t-4 border-t-blue-400 flex flex-col hover:shadow-md transition-shadow">
+                    <div class="flex justify-between items-start border-b pb-3 mb-4">
+                        <h3 class="font-bold text-gray-800 text-sm xl:text-base pr-2 truncate" title="architecturalmodel.org (Blog & EN)">architecturalmodel.org</h3>
+                        <span class="text-[10px] bg-blue-50 border border-blue-100 text-blue-700 px-2 py-0.5 rounded uppercase font-bold tracking-wider flex-shrink-0">Blog/EN</span>
+                    </div>
+                    <div class="mb-5 flex-grow">
+                        <p class="text-[10px] sm:text-xs text-gray-500 uppercase font-semibold gsc-metric-label">Tổng số Nhấp</p>
+                        <div class="flex justify-between items-baseline mt-1">
+                            <h3 class="text-2xl sm:text-3xl font-extrabold text-blue-700 gsc-total-val" id="total-w5">--</h3>
+                            <span class="text-xs font-semibold px-2 py-1 rounded bg-green-100 text-green-700 gsc-trend transition-colors" id="trend-w5">--%</span>
+                        </div>
+                    </div>
+                    <!-- Chart Canvas -->
+                    <div class="h-32 sm:h-40 w-full mt-auto">
+                        <canvas id="chart-w5"></canvas>
+                    </div>
+                </div>
+
+                <!-- Web 3 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-5 border-t-4 border-t-yellow-500 flex flex-col hover:shadow-md transition-shadow md:col-span-2 lg:col-span-1">
+                    <div class="flex justify-between items-start border-b pb-3 mb-4">
+                        <h3 class="font-bold text-gray-800 text-sm xl:text-base pr-2 truncate" title="mohinhsonganh.com (Profile)">mohinhsonganh.com</h3>
+                        <span class="text-[10px] bg-yellow-50 border border-yellow-200 text-yellow-700 px-2 py-0.5 rounded uppercase font-bold tracking-wider flex-shrink-0">Profile</span>
+                    </div>
+                    <div class="mb-5 flex-grow">
+                        <p class="text-[10px] sm:text-xs text-gray-500 uppercase font-semibold gsc-metric-label">Tổng số Nhấp</p>
+                        <div class="flex justify-between items-baseline mt-1">
+                            <h3 class="text-2xl sm:text-3xl font-extrabold text-blue-700 gsc-total-val" id="total-w6">--</h3>
+                            <span class="text-xs font-semibold px-2 py-1 rounded bg-green-100 text-green-700 gsc-trend transition-colors" id="trend-w6">--%</span>
+                        </div>
+                    </div>
+                    <!-- Chart Canvas -->
+                    <div class="h-32 sm:h-40 w-full mt-auto">
+                        <canvas id="chart-w6"></canvas>
+                    </div>
+                </div>
+            </div>
+            <!-- Tóm tắt Website summary -->
+            <div class="mt-6 bg-blue-50 border border-blue-100 p-4 rounded-lg">
+                <h4 class="text-sm font-bold text-blue-900 mb-2 flex items-center">
+                    <span class="mr-2">🌐</span> Tóm tắt tổng quan Website
+                </h4>
+                <p class="text-[11px] sm:text-sm text-blue-800 leading-relaxed">
+                    Website tổng thể đạt <strong>926 Users</strong>. Vấn đề cấp bách cần xử lý là lỗi 404 trên Web chính gây rớt traffic. Tuy nhiên, <strong>SEO Quốc tế</strong> đang rất mạnh với vị trí Top 9.7 và Web bán lẻ có CTR vượt trội (5.8%), mở ra cơ hội lớn cho việc triển khai mảng thương mại vật tư Online.
+                </p>
+            </div>
+        
+                </section>
+
                 
                 <section id="b2c-domain">
             <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-2 border-l-4 border-green-500 pl-3 uppercase">LĨNH VỰC THƯƠNG MẠI</h2>
@@ -431,6 +543,22 @@
             
                     </div>
                 </section>
+            </div>
+
+            <div id="sector-view-golf" class="hidden space-y-8 sm:space-y-12">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 sm:p-8">
+                    <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-6 border-l-4 border-sa-gold pl-3 uppercase">BÁO CÁO CÔNG VIỆC GOLF</h3>
+                    <ul class="space-y-4 text-gray-700">
+                        <li class="flex items-start">
+                            <span class="text-green-500 font-bold mr-3">✓</span>
+                            <span class="text-sm sm:text-base">Tuần này đã sản xuất được video từ tư liệu golf hiện tại.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-blue-500 font-bold mr-3">💡</span>
+                            <span class="text-sm sm:text-base">Đề xuất quỹ 5 triệu để chạy quảng cáo trên Facebook cho tuần sau.</span>
+                        </li>
+                    </ul>
+                </div>
             </div>
 <div id="sector-view-updating" class="hidden flex-col items-center justify-center min-h-[40vh] text-center bg-white rounded-3xl shadow-sm border border-gray-100 p-8 sm:p-12 mb-8 mt-4">
                 <div class="text-6xl mb-6 bounce-animation">🚧</div>
@@ -706,12 +834,15 @@
             // Sync time label
             const globalFilter = document.getElementById('global-time-filter');
             const customerLabel = document.getElementById('customer-time-label');
-            if (globalFilter && customerLabel) {
-                customerLabel.innerText = "tuần " + globalFilter.innerText;
+            const customerLabelTm = document.getElementById('customer-time-label-tm');
+            if (globalFilter) {
+                if(customerLabel) customerLabel.innerText = "tuần " + globalFilter.innerText;
+                if(customerLabelTm) customerLabelTm.innerText = "tuần " + globalFilter.innerText;
                 
                 // Add an observer if header changes dynamically
                 const observer = new MutationObserver(() => {
-                    customerLabel.innerText = "tuần " + globalFilter.innerText;
+                    if(customerLabel) customerLabel.innerText = "tuần " + globalFilter.innerText;
+                    if(customerLabelTm) customerLabelTm.innerText = "tuần " + globalFilter.innerText;
                 });
                 observer.observe(globalFilter, { childList: true, subtree: true, characterData: true });
             }
@@ -737,12 +868,17 @@
                     
                     const sectorTarget = e.target.getAttribute('data-sector');
                     const sectorThuongmai = document.getElementById('sector-view-thuongmai');
+                    const sectorGolf = document.getElementById('sector-view-golf');
                     
                     sectorMohinh.classList.add('hidden');
                     sectorMohinh.classList.remove('block');
                     if (sectorThuongmai) {
                         sectorThuongmai.classList.add('hidden');
                         sectorThuongmai.classList.remove('block');
+                    }
+                    if (sectorGolf) {
+                        sectorGolf.classList.add('hidden');
+                        sectorGolf.classList.remove('block');
                     }
                     sectorUpdating.classList.add('hidden');
                     sectorUpdating.classList.remove('flex');
@@ -754,8 +890,12 @@
                         if (sectorThuongmai) {
                             sectorThuongmai.classList.remove('hidden');
                             sectorThuongmai.classList.add('block');
-                            // Trigger resize so ChartJS can properly size the canvas in previously hidden container
                             setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 10);
+                        }
+                    } else if (sectorTarget === 'golf') {
+                        if (sectorGolf) {
+                            sectorGolf.classList.remove('hidden');
+                            sectorGolf.classList.add('block');
                         }
                     } else {
                         sectorUpdating.classList.remove('hidden');
