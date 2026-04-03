@@ -66,6 +66,7 @@
             scrollbar-width: none;
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
 </head>
 <body class="text-gray-800 antialiased min-h-screen flex flex-col">
 
@@ -595,6 +596,107 @@
     </footer>
 
     <script>
+        
+        // --- KEYWORD DATA FETCHING ---
+        function getRankVal(val) {
+            if (!val || val.trim() === '' || val.trim() === '-') return 101; 
+            let num = parseInt(val);
+            return isNaN(num) ? 101 : num;
+        }
+
+        const KW_URLS = {
+            'kw1': `https://docs.google.com/spreadsheets/d/1lrm94N_ej-qbfGmRWVmx6WcmQHHXubCcH84t2UZJ8w8/gviz/tq?tqx=out:csv&gid=831977248`,
+            'kw2': `https://docs.google.com/spreadsheets/d/1lrm94N_ej-qbfGmRWVmx6WcmQHHXubCcH84t2UZJ8w8/gviz/tq?tqx=out:csv&gid=1050733309`,
+            'kw3': `https://docs.google.com/spreadsheets/d/1lrm94N_ej-qbfGmRWVmx6WcmQHHXubCcH84t2UZJ8w8/gviz/tq?tqx=out:csv&gid=1263154050` 
+        };
+
+        let kwCachedData = {};
+
+        function loadKeywordData(siteId) {
+            document.querySelectorAll('.kw-val').forEach(el => el.innerText = '...');
+            
+            if (kwCachedData[siteId]) {
+                renderKeywordData(kwCachedData[siteId]);
+                return;
+            }
+
+            if(typeof Papa !== 'undefined') {
+                Papa.parse(KW_URLS[siteId], {
+                    download: true,
+                    header: true,
+                    skipEmptyLines: true,
+                    complete: function(results) {
+                        if(results.errors.length > 0 && results.data.length === 0) {
+                            tryProxyFallbackKw(siteId);
+                            return;
+                        }
+                        kwCachedData[siteId] = results.data;
+                        renderKeywordData(results.data);
+                    },
+                    error: function() {
+                        tryProxyFallbackKw(siteId);
+                    }
+                });
+            }
+        }
+
+        function tryProxyFallbackKw(siteId) {
+            let proxyUrl = "https://api.allorigins.win/raw?url=" + encodeURIComponent(KW_URLS[siteId]);
+            Papa.parse(proxyUrl, {
+                download: true,
+                header: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    kwCachedData[siteId] = results.data;
+                    renderKeywordData(results.data);
+                }
+            });
+        }
+
+        function renderKeywordData(dataArray) {
+            if (!dataArray || dataArray.length === 0) {
+                document.getElementById('kw-total').innerText = '0';
+                document.getElementById('kw-top3').innerText = '0';
+                document.getElementById('kw-top10').innerText = '0';
+                document.getElementById('kw-up').innerText = '0%';
+                return;
+            }
+
+            const allHeaders = Object.keys(dataArray[0]);
+            const baseHeaders = allHeaders.filter(h => ['từ khóa', 'keyword', 'url', 'link', 'volume', 'tìm kiếm/tháng', 'vol'].includes(h.toLowerCase()));
+            const dateHeaders = allHeaders.filter(h => !baseHeaders.includes(h));
+            const last7DaysHeaders = dateHeaders.slice(-7);
+
+            if (last7DaysHeaders.length === 0) return;
+
+            let m_total = 0, m_top3_t0 = 0, m_top10_t0 = 0;
+            let keywordsUp = 0;
+
+            const t0_key = last7DaysHeaders[last7DaysHeaders.length - 1]; 
+            const t1_key = last7DaysHeaders.length > 1 ? last7DaysHeaders[last7DaysHeaders.length - 2] : null;
+
+            dataArray.forEach(row => {
+                const kw = row['Từ khóa'] || row['Keyword'] || '';
+                if (!kw || kw.toLowerCase().includes('-org') || kw.toLowerCase().includes('.com') || kw === 'Từ khóa') return;
+                
+                m_total++;
+
+                const r_t0 = getRankVal(row[t0_key]);
+                const r_t1 = t1_key ? getRankVal(row[t1_key]) : r_t0;
+
+                if (r_t0 <= 3) m_top3_t0++;
+                if (r_t0 <= 10) m_top10_t0++;
+                if (r_t0 < r_t1) keywordsUp++;
+            });
+
+            document.getElementById('kw-total').innerText = m_total;
+            document.getElementById('kw-top3').innerText = m_top3_t0;
+            document.getElementById('kw-top10').innerText = m_top10_t0;
+            
+            let rateUp = m_total > 0 ? ((keywordsUp / m_total)*100).toFixed(1) : 0;
+            document.getElementById('kw-up').innerText = rateUp + '%';
+        }
+
         const reportData = {
             b2cGrowthTrend: {
                 labels: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
@@ -696,6 +798,7 @@
                     renderGscView();
                 });
             });
+            loadKeywordData('kw1');
 
             // Event Listener for Dropdown
             document.getElementById('gsc-timefilter').addEventListener('change', (e) => {
@@ -805,6 +908,7 @@
                     }
                 });
             });
+            loadKeywordData('kw1');
 
             // Update all metric labels in cards
             document.querySelectorAll('.gsc-metric-label').forEach(el => {
@@ -865,10 +969,10 @@
                     e.target.classList.remove('text-gray-600', 'hover:bg-gray-100');
                     e.target.classList.add('bg-green-100', 'text-green-800');
                     
-                    // Here we can easily connect to Keyword Tracker Data in the future.
-                    // For now, it stays at 0.
+                    loadKeywordData(siteId);
                 });
             });
+            loadKeywordData('kw1');
 
 
             
@@ -924,6 +1028,7 @@
                     }
                 });
             });
+            loadKeywordData('kw1');
 
 // Navigation handler
             const navItems = document.querySelectorAll('.nav-item');
@@ -973,6 +1078,7 @@
                     }
                 });
             });
+            loadKeywordData('kw1');
         });
     </script>
 </body>
