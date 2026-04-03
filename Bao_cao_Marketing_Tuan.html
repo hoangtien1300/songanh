@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Báo Cáo Marketing Bằng Số Liệu - Song Anh</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .text-sa-gold { color: #D4AF37; }
+        .bg-sa-gold { background-color: #D4AF37; }
+        .border-sa-gold { border-color: #D4AF37; }
+        .hover-bg-sa-gold:hover { background-color: #b5952f; }
+        
+        .chart-container {
+            position: relative;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+        }
+
+        @media (max-width: 640px) {
+            .chart-container {
+                height: 220px;
+            }
+        }
+
+        body {
+            background-color: #f9fafb;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, #e5e7eb, transparent);
+            margin: 2rem 0;
+        }
+
+        @media (min-width: 768px) {
+            .section-divider {
+                margin: 3rem 0;
+            }
+        }
+
+        .nav-active {
+            background-color: rgba(212, 175, 55, 0.1);
+            color: #D4AF37 !important;
+            font-weight: 600;
+        }
+        
+        @keyframes bounce-slow {
+            0%, 100% { transform: translateY(-10%); }
+            50% { transform: translateY(10%); }
+        }
+        .bounce-animation {
+            animation: bounce-slow 3s infinite ease-in-out;
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-gray-900 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4 flex flex-col sm:flex-row justify-between items-center gap-3">
+            <div class="flex items-center space-x-3">
+                <img src="logo.png" alt="Logo" class="h-10 sm:h-12 w-auto object-contain bg-white p-1 rounded">
+                <div>
+                    <h1 class="text-lg sm:text-xl font-bold tracking-wider uppercase text-sa-gold">Song Anh <span class="text-white">Marketing</span></h1>
+                    <p class="text-[10px] sm:text-xs text-gray-400">Phòng Marketing - Phụ trách: <strong>Phạm Hoàng Tiến</strong></p>
+                </div>
+            </div>
+            <div class="text-xs sm:text-sm bg-gray-800 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-gray-700">
+                🗓️ Tuần: <span class="font-semibold text-sa-gold">19/03 - 25/03</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex flex-col lg:flex-row flex-1 w-full max-w-7xl mx-auto items-start">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="w-full lg:w-64 flex-shrink-0 lg:sticky top-[100px] sm:top-[90px] pt-4 lg:pt-6 pb-2 lg:pb-4 px-4 sm:px-6 lg:px-0 lg:pr-6 z-40 bg-[#f9fafb] lg:border-none">
+            <nav class="flex flex-row lg:flex-col overflow-x-auto lg:overflow-visible space-x-2 lg:space-x-0 lg:space-y-2 font-medium hide-scrollbar pb-2 lg:pb-0" id="sidebar-nav">
+                <a href="#" data-target="view-overview" class="nav-item nav-active flex-shrink-0 flex items-center px-4 py-2 lg:py-3 text-sm rounded-xl text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200">
+                    <span class="mr-2 lg:mr-3 text-base lg:text-lg w-5 lg:w-6 text-center">📊</span> Tổng quan
+                </a>
+                <a href="#" data-target="view-updating" class="nav-item flex-shrink-0 flex items-center px-4 py-2 lg:py-3 text-sm rounded-xl text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200">
+                    <span class="mr-2 lg:mr-3 text-base lg:text-lg w-5 lg:w-6 text-center">📈</span> Thứ hạng từ khóa
+                </a>
+                <a href="#" data-target="view-updating" class="nav-item flex-shrink-0 flex items-center px-4 py-2 lg:py-3 text-sm rounded-xl text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200">
+                    <span class="mr-2 lg:mr-3 text-base lg:text-lg w-5 lg:w-6 text-center">🔍</span> Google Search Console
+                </a>
+                <a href="#" data-target="view-updating" class="nav-item flex-shrink-0 flex items-center px-4 py-2 lg:py-3 text-sm rounded-xl text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200">
+                    <span class="mr-2 lg:mr-3 text-base lg:text-lg w-5 lg:w-6 text-center">🌐</span> Google Analytics
+                </a>
+                <a href="#" data-target="view-updating" class="nav-item flex-shrink-0 flex items-center px-4 py-2 lg:py-3 text-sm rounded-xl text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200">
+                    <span class="mr-2 lg:mr-3 text-base lg:text-lg w-5 lg:w-6 text-center">📱</span> Facebook
+                </a>
+                <a href="#" data-target="view-updating" class="nav-item flex-shrink-0 flex items-center px-4 py-2 lg:py-3 text-sm rounded-xl text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200">
+                    <span class="mr-2 lg:mr-3 text-base lg:text-lg w-5 lg:w-6 text-center">📍</span> Google Business Profile
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-grow px-4 sm:px-6 lg:px-8 py-6 sm:py-8 w-full min-w-0">
+            
+            <!-- Dashboard View -->
+            <div id="view-overview" class="space-y-8 sm:space-y-12 block">
+
+        <!-- Executive Summary Section -->
+        <section id="executive-summary">
+            <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-2 border-l-4 border-sa-gold pl-3 uppercase">TỔNG QUAN SỐ LIỆU MARKETING</h2>
+            <p class="text-gray-600 mb-6 text-xs sm:text-sm md:text-base">
+                Bảng tóm tắt số liệu tổng hợp từ các kênh Fanpage và Website trong tuần qua.
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-5 border-l-4 border-l-green-500">
+                    <p class="text-[10px] sm:text-xs text-gray-500 uppercase font-semibold">Tổng Tiếp Cận Social</p>
+                    <div class="flex justify-between items-center mt-1">
+                        <h3 class="text-xl sm:text-2xl font-bold text-gray-900">1,223</h3>
+                        <span class="text-lg sm:text-xl">👁️</span>
+                    </div>
+                    <p class="text-[10px] sm:text-xs text-gray-400 mt-2">Tổng lượt xem trên 3 Fanpages</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-5 border-l-4 border-l-blue-500">
+                    <p class="text-[10px] sm:text-xs text-gray-500 uppercase font-semibold">Khách Vào Website</p>
+                    <div class="flex justify-between items-center mt-1">
+                        <h3 class="text-xl sm:text-2xl font-bold text-gray-900">926</h3>
+                        <span class="text-lg sm:text-xl">🌐</span>
+                    </div>
+                    <p class="text-[10px] sm:text-xs text-gray-400 mt-2">Dữ liệu từ Google Analytics 4</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-5 border-l-4 border-l-yellow-500">
+                    <p class="text-[10px] sm:text-xs text-gray-500 uppercase font-semibold">Tương Tác Fanpage</p>
+                    <div class="flex justify-between items-center mt-1">
+                        <h3 class="text-xl sm:text-2xl font-bold text-gray-900">33</h3>
+                        <span class="text-lg sm:text-xl">👍</span>
+                    </div>
+                    <p class="text-[10px] sm:text-xs text-gray-400 mt-2">Xu hướng tăng trưởng ổn định</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-5 border-l-4 border-l-purple-500">
+                    <p class="text-[10px] sm:text-xs text-gray-500 uppercase font-semibold">Lượt Nhấp SEO</p>
+                    <div class="flex justify-between items-center mt-1">
+                        <h3 class="text-xl sm:text-2xl font-bold text-gray-900">9</h3>
+                        <span class="text-lg sm:text-xl">🖱️</span>
+                    </div>
+                    <p class="text-[10px] sm:text-xs text-gray-400 mt-2">Dữ liệu thực tế: mohinhkientruc.org</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trích xuất dữ liệu chi tiết Fanpage -->
+        <section id="fanpage-details">
+            <h2 class="text-lg sm:text-xl font-bold text-gray-900 mb-4 border-l-4 border-gray-500 pl-3 uppercase">CHI TIẾT CHỈ SỐ THEO TỪNG FANPAGE</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                <!-- Page 1 -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-5 border-t-4 border-t-gray-400">
+                    <h3 class="font-bold text-gray-800 text-base sm:text-lg mb-4 border-b pb-2 flex justify-between items-center">
+                        Mô hình kiến trúc Song Anh
+                        <span class="text-[10px] sm:text-xs font-normal text-gray-400">Core Page</span>
+                    </h3>
+                    <ul class="space-y-3 text-xs sm:text-sm">
+                        <li class="flex justify-between border-b border-gray-50 pb-1">
+                            <span class="text-gray-600">Lượt xem</span>
+                            <span class="font-semibold text-gray-900">877 <span class="text-red-500 font-normal ml-1">↓ 28.9%</span></span>
+                        </li>
+                        <li class="flex justify-between border-b border-gray-50 pb-1">
+                            <span class="text-gray-600">Người xem d.biệt</span>
+                            <span class="font-semibold text-gray-900">179 <span class="text-red-500 font-normal ml-1">↓ 65.9%</span></span>
+                        </li>
+                        <li class="flex justify-between border-b border-gray-50 pb-1">
+                            <span class="text-gray-600">Lượt truy cập trang</span>
+                            <span class="font-semibold text-gray-900">101 <span class="text-green-600 font-normal ml-1">↑ 13.5%</span></span>
+                        </li>
+                        <li class="flex justify-between border-b border-gray-50 pb-1">
+                            <span class="text-gray-600">Lượt tương tác bài</span>
+                            <span class="font-semibold text-gray-900">20 <span class="text-green-600 font-normal ml-1">↑ 66.7%</span></span>
+                        </li>
+                        <li class="flex justify-between border-b border-gray-50 pb-1">
+                            <span class="text-gray-600">Click vào liên kết</span>
+                            <span class="font-semibold text-gray-900">2 <span class="text-red-500 font-normal ml-1">↓ 60%</span></span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span class="text-gray-600">Lượt theo dõi mới</span>
+                            <span class="font-semibold text-gray-900">0</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Page 2 -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-5 border-t-4 border-t-gray-400">
+                    <h3 class="font-bold text-gray-800 text-base sm:text-lg mb-4 border-b pb-2 flex justify-between items-center">
+                        Architectural Model Org
+                        <span class="text-[10px] sm:text-xs font-normal text-gray-400">Global</span>
+                    </h3>
+                    <ul class="space-y-3 text-xs sm:text-sm">
+                        <li class="flex justify-between border-b border-gray-50 pb-1">
+                            <span class="text-gray-600">Lượt xem</span>
+                            <span class="font-semibold text-gray-900">61 <span class="text-red-500 font-normal ml-1">↓ 61.4%</span></span>
+                        </li>
+                        <li class="flex justify-between border-b border-gray-50 pb-1">
+                            <span class="text-gray-600">Người xem d.biệt</span>
+                            <span class="font-semibold text-gray-900">32 <span class="text-green-600 font-normal ml-1">↑ 28%</span></span>
+                        </li>
+                        <li class="flex justify-between border-b border-gray-50 pb-1">
+                            <span class="text-gray-600">Lượt truy cập trang</span>
+                            <span class="font-semibold text-gray-900">10 <span class="text-red-500 font-normal ml-1">↓ 68.8%</span></span>
+                        </li>
+                        <li class="flex justify-between border-b border-gray-50 pb-1">
+                            <span class="text-gray-600">Lượt tương tác bài</span>
+                            <span class="font-semibold text-gray-900">3 <span class="text-green-600 font-normal ml-1">↑ 200%</span></span>
+                        </li>
+                        <li class="flex justify-between border-b border-gray-50 pb-1">
+                            <span class="text-gray-600">Click vào liên kết</span>
+                            <span class="font-semibold text-gray-900">0</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span class="text-gray-600">Lượt theo dõi mới</span>
+                            <span class="font-semibold text-gray-900">0</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Page 3 -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-5 border-t-4 border-t-green-500">
+                    <h3 class="font-bold text-gray-800 text-base sm:text-lg mb-4 border-b pb-2 flex justify-between items-center">
+                        Làm mô hình Song Anh
+                        <span class="text-[10px] sm:text-xs font-bold text-green-500">Sales Page</span>
+                    </h3>
+                    <ul class="space-y-3 text-xs sm:text-sm">
+                        <li class="flex justify-between border-b border-gray-50 pb-1">
+                            <span class="text-gray-600">Lượt xem</span>
+                            <span class="font-semibold text-gray-900">285 <span class="text-green-600 font-normal ml-1">↑ 295.8%</span></span>
+                        </li>
+                        <li class="flex justify-between border-b border-gray-50 pb-1">
+                            <span class="text-gray-600">Người xem d.biệt</span>
+                            <span class="font-semibold text-gray-900">37 <span class="text-green-600 font-normal ml-1">↑ 37%</span></span>
+                        </li>
+                        <li class="flex justify-between border-b border-gray-50 pb-1">
+                            <span class="text-gray-600">Lượt truy cập trang</span>
+                            <span class="font-semibold text-gray-900">32 <span class="text-green-600 font-normal ml-1">↑ 100%</span></span>
+                        </li>
+                        <li class="flex justify-between border-b border-gray-50 pb-1">
+                            <span class="text-gray-600">Lượt tương tác bài</span>
+                            <span class="font-semibold text-gray-900">10 <span class="text-green-600 font-normal ml-1">↑ 100%</span></span>
+                        </li>
+                        <li class="flex justify-between border-b border-gray-50 pb-1">
+                            <span class="text-gray-600">Click vào liên kết</span>
+                            <span class="font-semibold text-gray-900">1 <span class="text-green-600 font-normal ml-1">↑ 100%</span></span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span class="text-gray-600">Lượt theo dõi mới</span>
+                            <span class="font-semibold text-gray-900">0</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tóm tắt Fanpage summary -->
+            <div class="mt-6 bg-gray-50 border border-gray-200 p-4 rounded-lg">
+                <h4 class="text-sm font-bold text-gray-800 mb-2 flex items-center">
+                    <span class="mr-2">📝</span> Tóm tắt tổng quan Fanpage
+                </h4>
+                <p class="text-[11px] sm:text-sm text-gray-700 leading-relaxed">
+                    Hệ thống Fanpage duy trì traffic ổn định với <strong>1,223 lượt tiếp cận</strong>. Điểm sáng là <strong>Sales Page (Làm mô hình Song Anh)</strong> có mức tăng trưởng đột phá về lượt xem trang (↑ 296%) và tương tác nội dung, đóng vai trò phễu chuyển đổi chính cho mảng bán lẻ vật tư.
+                </p>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- Domain Section: Lĩnh Vực Mô Hình Kiến Trúc -->
+        <section id="b2b-domain">
+            <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-6 border-l-4 border-blue-500 pl-3 uppercase">1. LĨNH VỰC MÔ HÌNH KIẾN TRÚC</h2>
+            
+            <!-- Chuyển đổi Sales/Leads -->
+            <div class="bg-blue-50 border border-blue-200 p-4 sm:p-6 rounded-xl mb-8 flex flex-col sm:flex-row items-center justify-between shadow-sm gap-4">
+                <div class="text-center sm:text-left">
+                    <h3 class="text-lg sm:text-xl font-bold text-blue-900 flex items-center justify-center sm:justify-start"><span class="mr-2">🎯</span> KẾT QUẢ CHUYỂN ĐỔI</h3>
+                    <p class="text-blue-700 text-xs sm:text-sm mt-1">Số lượng khách hàng mới tuần này.</p>
+                </div>
+                <div class="text-center bg-white px-6 sm:px-8 py-2 sm:py-3 rounded-lg shadow-sm border border-blue-100 min-w-[120px] sm:min-w-[150px]">
+                    <span class="block text-3xl sm:text-4xl font-extrabold text-blue-600">10</span>
+                    <span class="block text-[10px] sm:text-xs text-gray-500 uppercase font-semibold mt-1">Khách Hàng</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                <!-- Web 1 -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-5 border-t-4 border-t-blue-500">
+                    <h3 class="font-bold text-blue-800 text-base sm:text-lg mb-4 border-b pb-2">mohinhkientruc.org</h3>
+                    <ul class="space-y-3 text-xs sm:text-sm mb-4">
+                        <li class="flex justify-between border-b border-gray-50 pb-1">
+                            <span class="text-gray-600">Lượt GSC Click</span>
+                            <span class="font-bold text-gray-900">9</span>
+                        </li>
+                        <li class="flex justify-between border-b border-gray-50 pb-1">
+                            <span class="text-gray-600">Lượt hiển thị</span>
+                            <span class="font-semibold text-gray-900">1,242</span>
+                        </li>
+                        <li class="flex justify-between border-b border-gray-50 pb-1">
+                            <span class="text-gray-600">Vị trí TB</span>
+                            <span class="font-semibold text-gray-900">Top 23.4</span>
+                        </li>
+                        <li class="flex justify-between border-b border-gray-50 pb-1">
+                            <span class="text-gray-600">Tổng User</span>
+                            <span class="font-semibold text-blue-600">819</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span class="text-gray-600">Time on Page</span>
+                            <span class="font-semibold text-red-500">~ 5 giây</span>
+                        </li>
+                    </ul>
+                    <div class="bg-gray-50 p-2 sm:p-3 rounded text-[10px] sm:text-xs text-gray-600">
+                        <strong>Lưu ý:</strong> Khách rớt mạng ở lỗi 404 cao. Cần xử lý kỹ thuật.
+                    </div>
+                </div>
+
+                <!-- Web 2 -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-5 border-t-4 border-t-blue-300">
+                    <h3 class="font-bold text-blue-800 text-base sm:text-lg mb-4 border-b pb-2">architecturalmodel.org</h3>
+                    <ul class="space-y-3 text-xs sm:text-sm mb-4">
+                        <li class="flex justify-between border-b border-gray-50 pb-1">
+                            <span class="text-gray-600">Lượt GSC Click</span>
+                            <span class="font-bold text-gray-900">40</span>
+                        </li>
+                        <li class="flex justify-between border-b border-gray-50 pb-1">
+                            <span class="text-gray-600">Lượt hiển thị ảo</span>
+                            <span class="font-semibold text-gray-900">2,060</span>
+                        </li>
+                        <li class="flex justify-between border-b border-gray-50 pb-1">
+                            <span class="text-gray-600">Vị trí TB</span>
+                            <span class="font-semibold text-green-600">Top 9.7</span>
+                        </li>
+                        <li class="flex justify-between border-b border-gray-50 pb-1">
+                            <span class="text-gray-600">Tổng User</span>
+                            <span class="font-semibold text-blue-600">107</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span class="text-gray-600">Time on Page</span>
+                            <span class="font-semibold text-green-600">25 giây</span>
+                        </li>
+                    </ul>
+                    <div class="bg-gray-50 p-2 sm:p-3 rounded text-[10px] sm:text-xs text-gray-600">
+                        <strong>Lưu ý:</strong> Vị trí SEO quốc tế rất tốt. Khách ở lại lâu.
+                    </div>
+                </div>
+
+                <!-- Web 3 -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-5 border-t-4 border-t-yellow-500 md:col-span-2 lg:col-span-1">
+                    <h3 class="font-bold text-blue-800 text-base sm:text-lg mb-4 border-b pb-2">mohinhsonganh.com</h3>
+                    <ul class="space-y-3 text-xs sm:text-sm mb-4">
+                        <li class="flex justify-between border-b border-gray-50 pb-1">
+                            <span class="text-gray-600">Lượt GSC Click</span>
+                            <span class="font-bold text-gray-900">14</span>
+                        </li>
+                        <li class="flex justify-between border-b border-gray-50 pb-1">
+                            <span class="text-gray-600">Lượt hiển thị ảo</span>
+                            <span class="font-semibold text-gray-900">241</span>
+                        </li>
+                        <li class="flex justify-between border-b border-gray-50 pb-1">
+                            <span class="text-gray-600">Tỷ lệ CTR</span>
+                            <span class="font-semibold text-green-600">5.8%</span>
+                        </li>
+                        <li class="flex justify-between border-b border-gray-50 pb-1">
+                            <span class="text-gray-600">Vị trí TB</span>
+                            <span class="font-semibold text-green-600">Top 6.9</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Tóm tắt Website summary -->
+            <div class="mt-6 bg-blue-50 border border-blue-100 p-4 rounded-lg">
+                <h4 class="text-sm font-bold text-blue-900 mb-2 flex items-center">
+                    <span class="mr-2">🌐</span> Tóm tắt tổng quan Website
+                </h4>
+                <p class="text-[11px] sm:text-sm text-blue-800 leading-relaxed">
+                    Website tổng thể đạt <strong>926 Users</strong>. Vấn đề cấp bách cần xử lý là lỗi 404 trên Web chính gây rớt traffic. Tuy nhiên, <strong>SEO Quốc tế</strong> đang rất mạnh với vị trí Top 9.7 và Web bán lẻ có CTR vượt trội (5.8%), mở ra cơ hội lớn cho việc triển khai mảng thương mại vật tư Online.
+                </p>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- Domain Section: Thương mại Bán lẻ Vật tư -->
+        <section id="b2c-domain">
+            <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-2 border-l-4 border-green-500 pl-3 uppercase">2. LĨNH VỰC THƯƠNG MẠI</h2>
+            
+            <div class="bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100 mb-6">
+                <div class="p-4 bg-green-50 rounded border border-green-200 text-xs sm:text-sm">
+                    <p class="font-semibold text-gray-800 mb-1">Fanpage chính: Làm mô hình Song Anh</p>
+                    <p class="text-gray-700">Lượt xem trang đạt <span class="font-bold text-green-700">285 lượt (↑ 296%)</span>. Xu hướng tăng trưởng rất mạnh.</p>
+                </div>
+            </div>
+            
+            <h4 class="text-xs sm:text-sm font-semibold text-gray-700 mb-2">Đà tăng trưởng Lượt xem Fanpage (Tuần qua)</h4>
+            <div class="chart-container">
+                <canvas id="b2cGrowthChart"></canvas>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- Evaluation Section -->
+        <section id="evaluation">
+            <div class="bg-gray-50 border border-gray-200 p-4 sm:p-6 rounded-xl mb-4 sm:mb-8 relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-4 opacity-5 text-4xl sm:text-6xl">📊</div>
+                <h2 class="text-lg sm:text-xl font-bold text-gray-900 mb-4 border-b border-gray-300 pb-2 uppercase">ĐÁNH GIÁ CÔNG VIỆC</h2>
+                <div class="space-y-4 relative z-10 text-[11px] sm:text-sm">
+                    <div class="flex items-start">
+                        <span class="inline-flex items-center justify-center h-5 w-5 rounded-full bg-green-100 text-green-600 mr-3">✓</span>
+                        <p class="text-gray-800"><strong>Social:</strong> Hoàn thành 100% lịch đăng bài. Tương tác tăng từ 66% - 200%.</p>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="inline-flex items-center justify-center h-5 w-5 rounded-full bg-green-100 text-green-600 mr-3">✓</span>
+                        <p class="text-gray-800"><strong>Website:</strong> Đã có phương án xử lý lỗi 404 cho 819 Users truy cập.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Action Plan Section -->
+        <section id="action-plan">
+            <div class="bg-gray-900 text-white p-4 sm:p-6 rounded-xl shadow-lg relative overflow-hidden">
+                <h2 class="text-lg sm:text-xl font-bold text-sa-gold mb-6 border-b border-gray-700 pb-3 uppercase">KẾ HOẠCH TUẦN TIẾP THEO</h2>
+                
+                <div class="space-y-4 text-[11px] sm:text-sm" id="action-list">
+                    <div class="flex items-start p-3 bg-gray-800 rounded-lg border-l-4 border-sa-gold cursor-pointer" onclick="toggleTask(this)">
+                        <div class="w-5 h-5 mt-0.5 rounded border border-gray-500 mr-3 flex-shrink-0 flex items-center justify-center task-checkbox text-xs"></div>
+                        <div>
+                            <span class="font-bold text-gray-100 block mb-0.5">Nghiên cứu & Áp dụng AI:</span>
+                            <span class="task-text text-gray-400">Tối ưu 60% thời gian vận hành bằng công cụ AI.</span>
+                        </div>
+                    </div>
+                    <div class="flex items-start p-3 bg-gray-800 rounded-lg border-l-4 border-blue-400 cursor-pointer" onclick="toggleTask(this)">
+                        <div class="w-5 h-5 mt-0.5 rounded border border-gray-500 mr-3 flex-shrink-0 flex items-center justify-center task-checkbox text-xs"></div>
+                        <div>
+                            <span class="font-bold text-gray-100 block mb-0.5">Triển khai mảng Golf:</span>
+                            <span class="task-text text-gray-400">Xây dựng kế hoạch tiếp thị cho khách hàng Golf.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+            </div> <!-- End view-overview -->
+
+            <!-- Under Development View -->
+            <div id="view-updating" class="hidden flex-col items-center justify-center min-h-[60vh] text-center bg-white rounded-3xl shadow-sm border border-gray-100 p-8 sm:p-12 mb-8">
+                <div class="text-7xl mb-6 bounce-animation">🚧</div>
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 tracking-tight">Giao diện đang được update</h2>
+                <div class="w-16 h-1.5 bg-sa-gold mx-auto mb-6 rounded-full"></div>
+                <p class="text-gray-500 max-w-md text-base sm:text-lg leading-relaxed">
+                    Module dữ liệu này đang trong quá trình tích hợp thuật toán phân tích chuyên sâu và sẽ sớm được ra mắt trong bản cập nhật tới.
+                </p>
+                <button onclick="document.querySelector('.nav-item[data-target=\'view-overview\']').click()" class="mt-8 px-6 py-2.5 bg-gray-900 hover:bg-gray-800 text-white rounded-full text-sm font-medium transition-colors">
+                    Về trang Tổng quan
+                </button>
+            </div>
+
+        </main>
+    </div> <!-- /flex wrapper -->
+
+    <footer class="bg-gray-100 border-t border-gray-200 text-center py-6 mt-6">
+        <p class="text-gray-600 text-[10px] sm:text-xs uppercase tracking-widest">Báo cáo bởi: Phạm Hoàng Tiến</p>
+    </footer>
+
+    <script>
+        const reportData = {
+            b2cGrowthTrend: {
+                labels: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
+                data: [70, 75, 85, 120, 180, 240, 285] 
+            }
+        };
+
+        Chart.defaults.font.family = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
+        Chart.defaults.color = '#6b7280'; 
+
+        function renderCharts() {
+            const ctxGrowth = document.getElementById('b2cGrowthChart').getContext('2d');
+            let gradient = ctxGrowth.createLinearGradient(0, 0, 0, 400);
+            gradient.addColorStop(0, 'rgba(16, 185, 129, 0.4)'); 
+            gradient.addColorStop(1, 'rgba(16, 185, 129, 0.0)');
+
+            new Chart(ctxGrowth, {
+                type: 'line',
+                data: {
+                    labels: reportData.b2cGrowthTrend.labels,
+                    datasets: [{
+                        label: 'Lượt xem trang',
+                        data: reportData.b2cGrowthTrend.data,
+                        borderColor: '#10b981', 
+                        backgroundColor: gradient,
+                        borderWidth: 2,
+                        pointBackgroundColor: '#ffffff',
+                        pointBorderColor: '#10b981',
+                        pointRadius: 3,
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                    },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: '#f3f4f6' } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+        }
+
+        window.toggleTask = function(element) {
+            const checkbox = element.querySelector('.task-checkbox');
+            const text = element.querySelector('.task-text');
+            const title = element.querySelector('.font-bold');
+            
+            if (checkbox.innerHTML === '') {
+                checkbox.innerHTML = '✓';
+                checkbox.classList.add('bg-sa-gold', 'border-sa-gold', 'text-gray-900');
+                checkbox.classList.remove('border-gray-500');
+                title.classList.add('line-through', 'opacity-50');
+                text.classList.add('line-through', 'opacity-50');
+            } else {
+                checkbox.innerHTML = '';
+                checkbox.classList.remove('bg-sa-gold', 'border-sa-gold', 'text-gray-900');
+                checkbox.classList.add('border-gray-500');
+                title.classList.remove('line-through', 'opacity-50');
+                text.classList.remove('line-through', 'opacity-50');
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCharts();
+
+            // Navigation handler
+            const navItems = document.querySelectorAll('.nav-item');
+            const views = {
+                'view-overview': document.getElementById('view-overview'),
+                'view-updating': document.getElementById('view-updating')
+            };
+
+            navItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    // Reset all nav items
+                    navItems.forEach(nav => {
+                        nav.classList.remove('nav-active');
+                    });
+
+                    // Set active class
+                    item.classList.add('nav-active');
+
+                    // Hide all views
+                    Object.values(views).forEach(view => {
+                        if (view) {
+                            view.classList.add('hidden');
+                            view.classList.remove('block', 'flex');
+                        }
+                    });
+
+                    // Show target view
+                    const targetId = item.getAttribute('data-target');
+                    if (views[targetId]) {
+                        views[targetId].classList.remove('hidden');
+                        if (targetId === 'view-overview') {
+                             views[targetId].classList.add('block');
+                        } else if (targetId === 'view-updating') {
+                             views[targetId].classList.add('flex');
+                        }
+                    }
+                    
+                    // Smooth scroll to top when changing views on mobile
+                    if (window.innerWidth < 1024) {
+                        window.scrollTo({
+                            top: 0,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
