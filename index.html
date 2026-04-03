@@ -123,9 +123,17 @@
                 <h2 class="inline-block text-xl sm:text-2xl lg:text-3xl font-extrabold text-gray-900 uppercase tracking-wide">TỔNG QUAN SỐ LIỆU MARKETING</h2>
                 <p class="text-gray-600 text-sm sm:text-base mt-2 font-medium">Bảng tóm tắt số liệu tổng hợp các kênh</p>
             </div>
-            </section>
+            
+            <!-- Sector Tabs -->
+            <div class="flex flex-wrap justify-center gap-2 sm:gap-4 mt-6 mb-2" id="sector-tabs">
+                <button data-sector="mohinh" class="sector-tab px-5 sm:px-8 py-2 sm:py-3 rounded-full font-bold text-sm sm:text-base border-2 border-sa-gold bg-sa-gold text-white shadow-md transition-all whitespace-nowrap">Mô hình</button>
+                <button data-sector="thuongmai" class="sector-tab px-5 sm:px-8 py-2 sm:py-3 rounded-full font-bold text-sm sm:text-base border-2 border-gray-200 text-gray-500 hover:border-gray-300 hover:text-gray-700 bg-white shadow-sm transition-all whitespace-nowrap">Thương mại</button>
+                <button data-sector="golf" class="sector-tab px-5 sm:px-8 py-2 sm:py-3 rounded-full font-bold text-sm sm:text-base border-2 border-gray-200 text-gray-500 hover:border-gray-300 hover:text-gray-700 bg-white shadow-sm transition-all whitespace-nowrap">Golf</button>
+            </div>
+</section>
 
-          <!-- Domain Section: Lĩnh Vực Mô Hình Kiến Trúc -->
+          <div id="sector-view-mohinh" class="space-y-8 sm:space-y-12 block">
+<!-- Domain Section: Lĩnh Vực Mô Hình Kiến Trúc -->
         <section id="b2b-domain">
             <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-6 border-l-4 border-blue-500 pl-3 uppercase">1. LĨNH VỰC MÔ HÌNH KIẾN TRÚC</h2>
             
@@ -419,7 +427,19 @@ ection: Thương mại Bán lẻ Vật tư -->
             </div>
         </section>
 
-            </div> <!-- End view-overview -->
+            
+            </div>
+
+            <div id="sector-view-updating" class="hidden flex-col items-center justify-center min-h-[40vh] text-center bg-white rounded-3xl shadow-sm border border-gray-100 p-8 sm:p-12 mb-8 mt-4">
+                <div class="text-6xl mb-6 bounce-animation">🚧</div>
+                <h3 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 tracking-tight">Tính năng đang phát triển</h3>
+                <div class="w-16 h-1.5 bg-sa-gold mx-auto mb-6 rounded-full"></div>
+                <p class="text-gray-500 max-w-md mx-auto text-sm sm:text-base leading-relaxed">
+                    Module giao diện và dữ liệu cho lĩnh vực này đang được lên kế hoạch và sẽ sớm cập nhật.
+                </p>
+            </div>
+
+</div> <!-- End view-overview -->
 
             <!-- Under Development View -->
             <div id="view-updating" class="hidden flex-col items-center justify-center min-h-[60vh] text-center bg-white rounded-3xl shadow-sm border border-gray-100 p-8 sm:p-12 mb-8">
@@ -697,7 +717,40 @@ ection: Thương mại Bán lẻ Vật tư -->
             renderCharts();
             initGscCharts();
 
-            // Navigation handler
+            
+            // Sector Tabs handler
+            const sectorTabs = document.querySelectorAll('.sector-tab');
+            const sectorMohinh = document.getElementById('sector-view-mohinh');
+            const sectorUpdating = document.getElementById('sector-view-updating');
+
+            sectorTabs.forEach(tab => {
+                tab.addEventListener('click', (e) => {
+                    // Reset styling
+                    sectorTabs.forEach(t => {
+                        t.className = 'sector-tab px-5 sm:px-8 py-2 sm:py-3 rounded-full font-bold text-sm sm:text-base border-2 border-gray-200 text-gray-500 hover:border-gray-300 hover:text-gray-700 bg-white shadow-sm transition-all whitespace-nowrap';
+                    });
+                    
+                    // Active style for selected
+                    e.target.className = 'sector-tab px-5 sm:px-8 py-2 sm:py-3 rounded-full font-bold text-sm sm:text-base border-2 border-sa-gold bg-sa-gold text-white shadow-md transition-all whitespace-nowrap';
+                    
+                    const sectorTarget = e.target.getAttribute('data-sector');
+                    if (sectorTarget === 'mohinh') {
+                        sectorMohinh.classList.remove('hidden');
+                        sectorMohinh.classList.add('block');
+                        
+                        sectorUpdating.classList.remove('flex');
+                        sectorUpdating.classList.add('hidden');
+                    } else {
+                        sectorMohinh.classList.add('hidden');
+                        sectorMohinh.classList.remove('block');
+                        
+                        sectorUpdating.classList.remove('hidden');
+                        sectorUpdating.classList.add('flex');
+                    }
+                });
+            });
+
+// Navigation handler
             const navItems = document.querySelectorAll('.nav-item');
             const views = {
                 'view-overview': document.getElementById('view-overview'),
