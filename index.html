@@ -73,7 +73,7 @@
     <header class="bg-gray-900 text-white shadow-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4 flex flex-col sm:flex-row justify-between items-center gap-3">
             <div class="flex items-center space-x-3">
-                <img src="logo.png" alt="Logo" class="h-10 sm:h-12 w-auto object-contain bg-white p-1 rounded">
+                <img src="test_repo/logo.png" alt="Logo" class="h-10 sm:h-12 w-auto object-contain bg-white p-1 rounded">
                 <div>
                     <h1 class="text-lg sm:text-xl font-bold tracking-wider uppercase text-sa-gold">Song Anh <span class="text-white">Marketing</span></h1>
                     <p class="text-[10px] sm:text-xs text-gray-400">Phòng Marketing - Phụ trách: <strong>Phạm Hoàng Tiến</strong></p>
@@ -298,90 +298,88 @@
                 </div>
             </div>
 
+            <!-- GSC Module Control Header -->
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                
+                <!-- Tabs -->
+                <div class="flex flex-wrap gap-2 lg:gap-3 bg-white p-1.5 rounded-lg border border-gray-200 shadow-sm w-full md:w-auto overflow-x-auto hide-scrollbar">
+                    <button class="gsc-tab whitespace-nowrap px-4 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors bg-blue-100 text-blue-800" data-metric="clicks">Tổng số nhấp</button>
+                    <button class="gsc-tab whitespace-nowrap px-4 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors text-gray-600 hover:bg-gray-100" data-metric="impressions">Hiển thị</button>
+                    <button class="gsc-tab whitespace-nowrap px-4 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors text-gray-600 hover:bg-gray-100" data-metric="ctr">CTR (%)</button>
+                    <button class="gsc-tab whitespace-nowrap px-4 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors text-gray-600 hover:bg-gray-100" data-metric="position">Vị trí TB</button>
+                </div>
+
+                <!-- Time Filter Dropdown -->
+                <div class="relative w-full md:w-auto">
+                    <select id="gsc-timefilter" class="w-full appearance-none bg-white border border-gray-300 text-gray-700 py-2.5 pl-4 pr-10 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm font-medium cursor-pointer">
+                        <option value="7d">7 ngày gần nhất</option>
+                        <option value="30d">30 ngày qua</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-700">
+                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Websites Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 <!-- Web 1 -->
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-5 border-t-4 border-t-blue-500">
-                    <h3 class="font-bold text-blue-800 text-base sm:text-lg mb-4 border-b pb-2">mohinhkientruc.org</h3>
-                    <ul class="space-y-3 text-xs sm:text-sm mb-4">
-                        <li class="flex justify-between border-b border-gray-50 pb-1">
-                            <span class="text-gray-600">Lượt GSC Click</span>
-                            <span class="font-bold text-gray-900">9</span>
-                        </li>
-                        <li class="flex justify-between border-b border-gray-50 pb-1">
-                            <span class="text-gray-600">Lượt hiển thị</span>
-                            <span class="font-semibold text-gray-900">1,242</span>
-                        </li>
-                        <li class="flex justify-between border-b border-gray-50 pb-1">
-                            <span class="text-gray-600">Vị trí TB</span>
-                            <span class="font-semibold text-gray-900">Top 23.4</span>
-                        </li>
-                        <li class="flex justify-between border-b border-gray-50 pb-1">
-                            <span class="text-gray-600">Tổng User</span>
-                            <span class="font-semibold text-blue-600">819</span>
-                        </li>
-                        <li class="flex justify-between">
-                            <span class="text-gray-600">Time on Page</span>
-                            <span class="font-semibold text-red-500">~ 5 giây</span>
-                        </li>
-                    </ul>
-                    <div class="bg-gray-50 p-2 sm:p-3 rounded text-[10px] sm:text-xs text-gray-600">
-                        <strong>Lưu ý:</strong> Khách rớt mạng ở lỗi 404 cao. Cần xử lý kỹ thuật.
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-5 border-t-4 border-t-blue-500 flex flex-col hover:shadow-md transition-shadow">
+                    <div class="flex justify-between items-start border-b pb-3 mb-4">
+                        <h3 class="font-bold text-gray-800 text-sm xl:text-base pr-2 truncate" title="mohinhkientruc.org">mohinhkientruc.org</h3>
+                        <span class="text-[10px] bg-blue-50 border border-blue-100 text-blue-700 px-2 py-0.5 rounded uppercase font-bold tracking-wider flex-shrink-0">Web 1</span>
+                    </div>
+                    <div class="mb-5 flex-grow">
+                        <p class="text-[10px] sm:text-xs text-gray-500 uppercase font-semibold gsc-metric-label">Tổng số Nhấp</p>
+                        <div class="flex justify-between items-baseline mt-1">
+                            <h3 class="text-2xl sm:text-3xl font-extrabold text-blue-700 gsc-total-val" id="total-w1">--</h3>
+                            <span class="text-xs font-semibold px-2 py-1 rounded bg-green-100 text-green-700 gsc-trend transition-colors" id="trend-w1">--%</span>
+                        </div>
+                    </div>
+                    <!-- Chart Canvas -->
+                    <div class="h-32 w-full mt-auto">
+                        <canvas id="chart-w1"></canvas>
                     </div>
                 </div>
 
                 <!-- Web 2 -->
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-5 border-t-4 border-t-blue-300">
-                    <h3 class="font-bold text-blue-800 text-base sm:text-lg mb-4 border-b pb-2">architecturalmodel.org</h3>
-                    <ul class="space-y-3 text-xs sm:text-sm mb-4">
-                        <li class="flex justify-between border-b border-gray-50 pb-1">
-                            <span class="text-gray-600">Lượt GSC Click</span>
-                            <span class="font-bold text-gray-900">40</span>
-                        </li>
-                        <li class="flex justify-between border-b border-gray-50 pb-1">
-                            <span class="text-gray-600">Lượt hiển thị ảo</span>
-                            <span class="font-semibold text-gray-900">2,060</span>
-                        </li>
-                        <li class="flex justify-between border-b border-gray-50 pb-1">
-                            <span class="text-gray-600">Vị trí TB</span>
-                            <span class="font-semibold text-green-600">Top 9.7</span>
-                        </li>
-                        <li class="flex justify-between border-b border-gray-50 pb-1">
-                            <span class="text-gray-600">Tổng User</span>
-                            <span class="font-semibold text-blue-600">107</span>
-                        </li>
-                        <li class="flex justify-between">
-                            <span class="text-gray-600">Time on Page</span>
-                            <span class="font-semibold text-green-600">25 giây</span>
-                        </li>
-                    </ul>
-                    <div class="bg-gray-50 p-2 sm:p-3 rounded text-[10px] sm:text-xs text-gray-600">
-                        <strong>Lưu ý:</strong> Vị trí SEO quốc tế rất tốt. Khách ở lại lâu.
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-5 border-t-4 border-t-blue-400 flex flex-col hover:shadow-md transition-shadow">
+                    <div class="flex justify-between items-start border-b pb-3 mb-4">
+                        <h3 class="font-bold text-gray-800 text-sm xl:text-base pr-2 truncate" title="architecturalmodel.org">architecturalmodel.org</h3>
+                        <span class="text-[10px] bg-blue-50 border border-blue-100 text-blue-700 px-2 py-0.5 rounded uppercase font-bold tracking-wider flex-shrink-0">Global</span>
+                    </div>
+                    <div class="mb-5 flex-grow">
+                        <p class="text-[10px] sm:text-xs text-gray-500 uppercase font-semibold gsc-metric-label">Tổng số Nhấp</p>
+                        <div class="flex justify-between items-baseline mt-1">
+                            <h3 class="text-2xl sm:text-3xl font-extrabold text-blue-700 gsc-total-val" id="total-w2">--</h3>
+                            <span class="text-xs font-semibold px-2 py-1 rounded bg-green-100 text-green-700 gsc-trend transition-colors" id="trend-w2">--%</span>
+                        </div>
+                    </div>
+                    <!-- Chart Canvas -->
+                    <div class="h-32 w-full mt-auto">
+                        <canvas id="chart-w2"></canvas>
                     </div>
                 </div>
 
                 <!-- Web 3 -->
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-5 border-t-4 border-t-yellow-500 md:col-span-2 lg:col-span-1">
-                    <h3 class="font-bold text-blue-800 text-base sm:text-lg mb-4 border-b pb-2">mohinhsonganh.com</h3>
-                    <ul class="space-y-3 text-xs sm:text-sm mb-4">
-                        <li class="flex justify-between border-b border-gray-50 pb-1">
-                            <span class="text-gray-600">Lượt GSC Click</span>
-                            <span class="font-bold text-gray-900">14</span>
-                        </li>
-                        <li class="flex justify-between border-b border-gray-50 pb-1">
-                            <span class="text-gray-600">Lượt hiển thị ảo</span>
-                            <span class="font-semibold text-gray-900">241</span>
-                        </li>
-                        <li class="flex justify-between border-b border-gray-50 pb-1">
-                            <span class="text-gray-600">Tỷ lệ CTR</span>
-                            <span class="font-semibold text-green-600">5.8%</span>
-                        </li>
-                        <li class="flex justify-between border-b border-gray-50 pb-1">
-                            <span class="text-gray-600">Vị trí TB</span>
-                            <span class="font-semibold text-green-600">Top 6.9</span>
-                        </li>
-                    </ul>
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-5 border-t-4 border-t-yellow-500 flex flex-col hover:shadow-md transition-shadow md:col-span-2 lg:col-span-1">
+                    <div class="flex justify-between items-start border-b pb-3 mb-4">
+                        <h3 class="font-bold text-gray-800 text-sm xl:text-base pr-2 truncate" title="mohinhsonganh.com">mohinhsonganh.com</h3>
+                        <span class="text-[10px] bg-yellow-50 border border-yellow-200 text-yellow-700 px-2 py-0.5 rounded uppercase font-bold tracking-wider flex-shrink-0">Sale</span>
+                    </div>
+                    <div class="mb-5 flex-grow">
+                        <p class="text-[10px] sm:text-xs text-gray-500 uppercase font-semibold gsc-metric-label">Tổng số Nhấp</p>
+                        <div class="flex justify-between items-baseline mt-1">
+                            <h3 class="text-2xl sm:text-3xl font-extrabold text-blue-700 gsc-total-val" id="total-w3">--</h3>
+                            <span class="text-xs font-semibold px-2 py-1 rounded bg-green-100 text-green-700 gsc-trend transition-colors" id="trend-w3">--%</span>
+                        </div>
+                    </div>
+                    <!-- Chart Canvas -->
+                    <div class="h-32 w-full mt-auto">
+                        <canvas id="chart-w3"></canvas>
+                    </div>
                 </div>
-
             </div>
 
             <!-- Tóm tắt Website summary -->
@@ -528,6 +526,176 @@
             });
         }
 
+        // --- MOCK DATA CHO GSC ---
+        const gscMock = {
+            labels7d: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
+            labels30d: Array.from({length: 30}, (_, i) => `Ngày ${i+1}`),
+            w1: { // mohinhkientruc.org
+                clicks: { '7d': { total: '9', data: [1, 2, 0, 1, 3, 2, 0], trend: '↑ 12%' }, '30d': { total: '38', data: [0,1,1,2,0,1,1,2,3,1,0,0,1,2,2,3,1,0,1,1,2,1,0,1,2,3,3,2,1,0], trend: '↑ 5%' } },
+                impressions: { '7d': { total: '1,242', data: [150, 180, 200, 170, 190, 160, 192], trend: '↑ 4%' }, '30d': { total: '4,520', data: Array.from({length:30}, ()=>Math.floor(100+Math.random()*100)), trend: '↑ 2%' } },
+                ctr: { '7d': { total: '0.7%', data: [0.6, 1.1, 0, 0.5, 1.5, 1.2, 0], trend: '↑ 0.1%' }, '30d': { total: '0.8%', data: Array.from({length:30}, ()=>+(Math.random()*2).toFixed(1)), trend: '↑ 0.2%' } },
+                position: { '7d': { total: '23.4', data: [28, 25, 23, 22, 21, 24, 23.4], trend: '↑ 4.6' }, '30d': { total: '25.1', data: Array.from({length:30}, ()=>Math.floor(20+Math.random()*10)), trend: '↑ 2.0' } }
+            },
+            w2: { // architecturalmodel.org
+                clicks: { '7d': { total: '40', data: [5, 6, 4, 8, 7, 5, 5], trend: '↑ 25%' }, '30d': { total: '150', data: Array.from({length:30}, ()=>Math.floor(2+Math.random()*6)), trend: '↑ 15%' } },
+                impressions: { '7d': { total: '2,060', data: [250, 300, 280, 320, 310, 290, 310], trend: '↑ 8%' }, '30d': { total: '8,200', data: Array.from({length:30}, ()=>Math.floor(200+Math.random()*150)), trend: '↑ 10%' } },
+                ctr: { '7d': { total: '1.9%', data: [2.0, 2.0, 1.4, 2.5, 2.2, 1.7, 1.6], trend: '↑ 0.3%' }, '30d': { total: '1.8%', data: Array.from({length:30}, ()=>+(1+Math.random()*2).toFixed(1)), trend: '↑ 0.1%' } },
+                position: { '7d': { total: '9.7', data: [11.2, 10.5, 10.2, 9.8, 9.5, 9.6, 9.7], trend: '↑ 1.5' }, '30d': { total: '10.5', data: Array.from({length:30}, ()=>Math.floor(8+Math.random()*6)), trend: '↑ 0.5' } }
+            },
+            w3: { // mohinhsonganh.com
+                clicks: { '7d': { total: '14', data: [2, 1, 3, 2, 2, 1, 3], trend: '↑ 40%' }, '30d': { total: '45', data: Array.from({length:30}, ()=>Math.floor(0+Math.random()*4)), trend: '↑ 20%' } },
+                impressions: { '7d': { total: '241', data: [30, 40, 35, 25, 45, 36, 30], trend: '↓ 5%' }, '30d': { total: '1,100', data: Array.from({length:30}, ()=>Math.floor(20+Math.random()*30)), trend: '↑ 12%' } },
+                ctr: { '7d': { total: '5.8%', data: [6.6, 2.5, 8.5, 8.0, 4.4, 2.7, 10.0], trend: '↑ 1.5%' }, '30d': { total: '4.0%', data: Array.from({length:30}, ()=>+(2+Math.random()*4).toFixed(1)), trend: '↑ 0.8%' } },
+                position: { '7d': { total: '6.9', data: [7.5, 7.2, 6.8, 6.5, 6.9, 7.0, 6.9], trend: '↑ 0.6' }, '30d': { total: '7.5', data: Array.from({length:30}, ()=>Math.floor(5+Math.random()*5)), trend: '↑ 1.2' } }
+            }
+        };
+
+        const gscMetricNames = {
+            'clicks': 'Tổng số Nhấp',
+            'impressions': 'Tổng Hiển thị',
+            'ctr': 'CTR Trung bình (%)',
+            'position': 'Vị trí Trung bình'
+        };
+
+        // GSC State
+        let currentGscMetric = 'clicks';
+        let currentGscTimeframe = '7d';
+        let gscCharts = {};
+
+        function initGscCharts() {
+            renderGscView();
+
+            // Event Listeners for Tabs
+            document.querySelectorAll('.gsc-tab').forEach(tab => {
+                tab.addEventListener('click', (e) => {
+                    // Update active styling
+                    document.querySelectorAll('.gsc-tab').forEach(t => {
+                        t.classList.remove('bg-blue-100', 'text-blue-800');
+                        t.classList.add('text-gray-600', 'hover:bg-gray-100');
+                    });
+                    e.target.classList.remove('text-gray-600', 'hover:bg-gray-100');
+                    e.target.classList.add('bg-blue-100', 'text-blue-800');
+
+                    currentGscMetric = e.target.getAttribute('data-metric');
+                    renderGscView();
+                });
+            });
+
+            // Event Listener for Dropdown
+            document.getElementById('gsc-timefilter').addEventListener('change', (e) => {
+                currentGscTimeframe = e.target.value;
+                renderGscView();
+            });
+        }
+
+        function renderGscView() {
+            const labels = currentGscTimeframe === '7d' ? gscMock.labels7d : gscMock.labels30d;
+            
+            // Loop through w1, w2, w3
+            ['w1', 'w2', 'w3'].forEach(siteId => {
+                const metricData = gscMock[siteId][currentGscMetric][currentGscTimeframe];
+                
+                // Cập nhật DOM bằng metricData
+                document.getElementById(`total-${siteId}`).innerText = metricData.total;
+                document.getElementById(`trend-${siteId}`).innerText = metricData.trend;
+                
+                // Color formatting for trend
+                const trendEl = document.getElementById(`trend-${siteId}`);
+                if (metricData.trend.includes('↓')) {
+                    trendEl.classList.remove('bg-green-100', 'text-green-700');
+                    trendEl.classList.add('bg-red-100', 'text-red-700');
+                } else {
+                    trendEl.classList.remove('bg-red-100', 'text-red-700');
+                    trendEl.classList.add('bg-green-100', 'text-green-700');
+                }
+
+                // Cập nhật biểu đồ
+                const canvasId = `chart-${siteId}`;
+                const ctx = document.getElementById(canvasId).getContext('2d');
+                
+                if (gscCharts[siteId]) {
+                    gscCharts[siteId].destroy();
+                }
+
+                let isPosition = currentGscMetric === 'position';
+                let gradient = ctx.createLinearGradient(0, 0, 0, 150);
+                gradient.addColorStop(0, isPosition ? 'rgba(234, 179, 8, 0.4)' : 'rgba(59, 130, 246, 0.4)');
+                gradient.addColorStop(1, isPosition ? 'rgba(234, 179, 8, 0.0)' : 'rgba(59, 130, 246, 0.0)');
+
+                let borderColor = isPosition ? '#eab308' : '#3b82f6';
+                let pointColor = borderColor;
+
+                gscCharts[siteId] = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: gscMetricNames[currentGscMetric],
+                            data: metricData.data,
+                            borderColor: borderColor,
+                            backgroundColor: gradient,
+                            borderWidth: 2,
+                            pointRadius: 2,
+                            pointBackgroundColor: '#ffffff',
+                            pointBorderColor: pointColor,
+                            fill: true,
+                            tension: 0.3
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    label: (context) => {
+                                      return `${gscMetricNames[currentGscMetric]}: ${context.parsed.y}`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: { 
+                                reverse: isPosition,
+                                title: {
+                                    display: isPosition,
+                                    text: 'Thứ hạng',
+                                    font: { size: 10 }
+                                },
+                                ticks: {
+                                    font: { size: 10 }
+                                },
+                                border: { display: false },
+                                grid: { 
+                                    color: '#f3f4f6', 
+                                    drawBorder: false
+                                } 
+                            },
+                            x: { 
+                                title: {
+                                    display: isPosition,
+                                    text: 'Thời gian',
+                                    font: { size: 10 }
+                                },
+                                ticks: {
+                                    font: { size: 10 },
+                                    maxTicksLimit: 7
+                                },
+                                border: { display: false },
+                                grid: { display: false } 
+                            }
+                        }
+                    }
+                });
+            });
+
+            // Update all metric labels in cards
+            document.querySelectorAll('.gsc-metric-label').forEach(el => {
+                el.innerText = gscMetricNames[currentGscMetric];
+            });
+        }
+
         window.toggleTask = function(element) {
             const checkbox = element.querySelector('.task-checkbox');
             const text = element.querySelector('.task-text');
@@ -550,6 +718,7 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             renderCharts();
+            initGscCharts();
 
             // Navigation handler
             const navItems = document.querySelectorAll('.nav-item');
