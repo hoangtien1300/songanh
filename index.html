@@ -73,7 +73,7 @@
     <header class="bg-gray-900 text-white shadow-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4 flex flex-col sm:flex-row justify-between items-center gap-3">
             <div class="flex items-center space-x-3">
-                <img src="test_repo/logo.png" alt="Logo" class="h-10 sm:h-12 w-auto object-contain bg-white p-1 rounded">
+                <img src="logo-songanh.png" alt="Logo" class="h-10 sm:h-12 w-auto object-contain bg-white p-1 rounded">
                 <div>
                     <h1 class="text-lg sm:text-xl font-bold tracking-wider uppercase text-sa-gold">Song Anh <span class="text-white">Marketing</span></h1>
                     <p class="text-[10px] sm:text-xs text-gray-400">Phòng Marketing - Phụ trách: <strong>Phạm Hoàng Tiến</strong></p>
@@ -161,6 +161,119 @@
                 </div>
             </div>
         </section>
+
+          <!-- Domain Section: Lĩnh Vực Mô Hình Kiến Trúc -->
+        <section id="b2b-domain">
+            <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-6 border-l-4 border-blue-500 pl-3 uppercase">1. LĨNH VỰC MÔ HÌNH KIẾN TRÚC</h2>
+            
+            <!-- Chuyển đổi Sales/Leads -->
+            <div class="bg-blue-50 border border-blue-200 p-4 sm:p-6 rounded-xl mb-8 flex flex-col sm:flex-row items-center justify-between shadow-sm gap-4">
+                <div class="text-center sm:text-left">
+                    <h3 class="text-lg sm:text-xl font-bold text-blue-900 flex items-center justify-center sm:justify-start"><span class="mr-2">🎯</span> KẾT QUẢ CHUYỂN ĐỔI</h3>
+                    <p class="text-blue-700 text-xs sm:text-sm mt-1">Số lượng khách hàng mới tuần này.</p>
+                </div>
+                <div class="text-center bg-white px-6 sm:px-8 py-2 sm:py-3 rounded-lg shadow-sm border border-blue-100 min-w-[120px] sm:min-w-[150px]">
+                    <span class="block text-3xl sm:text-4xl font-extrabold text-blue-600">10</span>
+                    <span class="block text-[10px] sm:text-xs text-gray-500 uppercase font-semibold mt-1">Khách Hàng</span>
+                </div>
+            </div>
+
+            <!-- GSC Module Control Header -->
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                
+                <!-- Tabs -->
+                <div class="flex flex-wrap gap-2 lg:gap-3 bg-white p-1.5 rounded-lg border border-gray-200 shadow-sm w-full md:w-auto overflow-x-auto hide-scrollbar">
+                    <button class="gsc-tab whitespace-nowrap px-4 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors bg-blue-100 text-blue-800" data-metric="clicks">Tổng số nhấp</button>
+                    <button class="gsc-tab whitespace-nowrap px-4 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors text-gray-600 hover:bg-gray-100" data-metric="impressions">Hiển thị</button>
+                    <button class="gsc-tab whitespace-nowrap px-4 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors text-gray-600 hover:bg-gray-100" data-metric="ctr">CTR (%)</button>
+                    <button class="gsc-tab whitespace-nowrap px-4 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors text-gray-600 hover:bg-gray-100" data-metric="position">Vị trí TB</button>
+                </div>
+
+                <!-- Time Filter Dropdown -->
+                <div class="relative w-full md:w-auto">
+                    <select id="gsc-timefilter" class="w-full appearance-none bg-white border border-gray-300 text-gray-700 py-2.5 pl-4 pr-10 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm font-medium cursor-pointer">
+                        <option value="7d">7 ngày gần nhất</option>
+                        <option value="30d">30 ngày qua</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-700">
+                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Websites Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                <!-- Web 1 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-5 border-t-4 border-t-blue-500 flex flex-col hover:shadow-md transition-shadow">
+                    <div class="flex justify-between items-start border-b pb-3 mb-4">
+                        <h3 class="font-bold text-gray-800 text-sm xl:text-base pr-2 truncate" title="mohinhkientruc.org">mohinhkientruc.org</h3>
+                        <span class="text-[10px] bg-blue-50 border border-blue-100 text-blue-700 px-2 py-0.5 rounded uppercase font-bold tracking-wider flex-shrink-0">Web 1</span>
+                    </div>
+                    <div class="mb-5 flex-grow">
+                        <p class="text-[10px] sm:text-xs text-gray-500 uppercase font-semibold gsc-metric-label">Tổng số Nhấp</p>
+                        <div class="flex justify-between items-baseline mt-1">
+                            <h3 class="text-2xl sm:text-3xl font-extrabold text-blue-700 gsc-total-val" id="total-w1">--</h3>
+                            <span class="text-xs font-semibold px-2 py-1 rounded bg-green-100 text-green-700 gsc-trend transition-colors" id="trend-w1">--%</span>
+                        </div>
+                    </div>
+                    <!-- Chart Canvas -->
+                    <div class="h-32 w-full mt-auto">
+                        <canvas id="chart-w1"></canvas>
+                    </div>
+                </div>
+
+                <!-- Web 2 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-5 border-t-4 border-t-blue-400 flex flex-col hover:shadow-md transition-shadow">
+                    <div class="flex justify-between items-start border-b pb-3 mb-4">
+                        <h3 class="font-bold text-gray-800 text-sm xl:text-base pr-2 truncate" title="architecturalmodel.org">architecturalmodel.org</h3>
+                        <span class="text-[10px] bg-blue-50 border border-blue-100 text-blue-700 px-2 py-0.5 rounded uppercase font-bold tracking-wider flex-shrink-0">Global</span>
+                    </div>
+                    <div class="mb-5 flex-grow">
+                        <p class="text-[10px] sm:text-xs text-gray-500 uppercase font-semibold gsc-metric-label">Tổng số Nhấp</p>
+                        <div class="flex justify-between items-baseline mt-1">
+                            <h3 class="text-2xl sm:text-3xl font-extrabold text-blue-700 gsc-total-val" id="total-w2">--</h3>
+                            <span class="text-xs font-semibold px-2 py-1 rounded bg-green-100 text-green-700 gsc-trend transition-colors" id="trend-w2">--%</span>
+                        </div>
+                    </div>
+                    <!-- Chart Canvas -->
+                    <div class="h-32 w-full mt-auto">
+                        <canvas id="chart-w2"></canvas>
+                    </div>
+                </div>
+
+                <!-- Web 3 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-5 border-t-4 border-t-yellow-500 flex flex-col hover:shadow-md transition-shadow md:col-span-2 lg:col-span-1">
+                    <div class="flex justify-between items-start border-b pb-3 mb-4">
+                        <h3 class="font-bold text-gray-800 text-sm xl:text-base pr-2 truncate" title="mohinhsonganh.com">mohinhsonganh.com</h3>
+                        <span class="text-[10px] bg-yellow-50 border border-yellow-200 text-yellow-700 px-2 py-0.5 rounded uppercase font-bold tracking-wider flex-shrink-0">Sale</span>
+                    </div>
+                    <div class="mb-5 flex-grow">
+                        <p class="text-[10px] sm:text-xs text-gray-500 uppercase font-semibold gsc-metric-label">Tổng số Nhấp</p>
+                        <div class="flex justify-between items-baseline mt-1">
+                            <h3 class="text-2xl sm:text-3xl font-extrabold text-blue-700 gsc-total-val" id="total-w3">--</h3>
+                            <span class="text-xs font-semibold px-2 py-1 rounded bg-green-100 text-green-700 gsc-trend transition-colors" id="trend-w3">--%</span>
+                        </div>
+                    </div>
+                    <!-- Chart Canvas -->
+                    <div class="h-32 w-full mt-auto">
+                        <canvas id="chart-w3"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tóm tắt Website summary -->
+            <div class="mt-6 bg-blue-50 border border-blue-100 p-4 rounded-lg">
+                <h4 class="text-sm font-bold text-blue-900 mb-2 flex items-center">
+                    <span class="mr-2">🌐</span> Tóm tắt tổng quan Website
+                </h4>
+                <p class="text-[11px] sm:text-sm text-blue-800 leading-relaxed">
+                    Website tổng thể đạt <strong>926 Users</strong>. Vấn đề cấp bách cần xử lý là lỗi 404 trên Web chính gây rớt traffic. Tuy nhiên, <strong>SEO Quốc tế</strong> đang rất mạnh với vị trí Top 9.7 và Web bán lẻ có CTR vượt trội (5.8%), mở ra cơ hội lớn cho việc triển khai mảng thương mại vật tư Online.
+                </p>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
 
         <!-- Trích xuất dữ liệu chi tiết Fanpage -->
         <section id="fanpage-details">
@@ -280,122 +393,7 @@
             </div>
         </section>
 
-        <div class="section-divider"></div>
-
-        <!-- Domain Section: Lĩnh Vực Mô Hình Kiến Trúc -->
-        <section id="b2b-domain">
-            <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-6 border-l-4 border-blue-500 pl-3 uppercase">1. LĨNH VỰC MÔ HÌNH KIẾN TRÚC</h2>
-            
-            <!-- Chuyển đổi Sales/Leads -->
-            <div class="bg-blue-50 border border-blue-200 p-4 sm:p-6 rounded-xl mb-8 flex flex-col sm:flex-row items-center justify-between shadow-sm gap-4">
-                <div class="text-center sm:text-left">
-                    <h3 class="text-lg sm:text-xl font-bold text-blue-900 flex items-center justify-center sm:justify-start"><span class="mr-2">🎯</span> KẾT QUẢ CHUYỂN ĐỔI</h3>
-                    <p class="text-blue-700 text-xs sm:text-sm mt-1">Số lượng khách hàng mới tuần này.</p>
-                </div>
-                <div class="text-center bg-white px-6 sm:px-8 py-2 sm:py-3 rounded-lg shadow-sm border border-blue-100 min-w-[120px] sm:min-w-[150px]">
-                    <span class="block text-3xl sm:text-4xl font-extrabold text-blue-600">10</span>
-                    <span class="block text-[10px] sm:text-xs text-gray-500 uppercase font-semibold mt-1">Khách Hàng</span>
-                </div>
-            </div>
-
-            <!-- GSC Module Control Header -->
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-                
-                <!-- Tabs -->
-                <div class="flex flex-wrap gap-2 lg:gap-3 bg-white p-1.5 rounded-lg border border-gray-200 shadow-sm w-full md:w-auto overflow-x-auto hide-scrollbar">
-                    <button class="gsc-tab whitespace-nowrap px-4 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors bg-blue-100 text-blue-800" data-metric="clicks">Tổng số nhấp</button>
-                    <button class="gsc-tab whitespace-nowrap px-4 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors text-gray-600 hover:bg-gray-100" data-metric="impressions">Hiển thị</button>
-                    <button class="gsc-tab whitespace-nowrap px-4 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors text-gray-600 hover:bg-gray-100" data-metric="ctr">CTR (%)</button>
-                    <button class="gsc-tab whitespace-nowrap px-4 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors text-gray-600 hover:bg-gray-100" data-metric="position">Vị trí TB</button>
-                </div>
-
-                <!-- Time Filter Dropdown -->
-                <div class="relative w-full md:w-auto">
-                    <select id="gsc-timefilter" class="w-full appearance-none bg-white border border-gray-300 text-gray-700 py-2.5 pl-4 pr-10 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm font-medium cursor-pointer">
-                        <option value="7d">7 ngày gần nhất</option>
-                        <option value="30d">30 ngày qua</option>
-                    </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-700">
-                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Websites Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                <!-- Web 1 -->
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-5 border-t-4 border-t-blue-500 flex flex-col hover:shadow-md transition-shadow">
-                    <div class="flex justify-between items-start border-b pb-3 mb-4">
-                        <h3 class="font-bold text-gray-800 text-sm xl:text-base pr-2 truncate" title="mohinhkientruc.org">mohinhkientruc.org</h3>
-                        <span class="text-[10px] bg-blue-50 border border-blue-100 text-blue-700 px-2 py-0.5 rounded uppercase font-bold tracking-wider flex-shrink-0">Web 1</span>
-                    </div>
-                    <div class="mb-5 flex-grow">
-                        <p class="text-[10px] sm:text-xs text-gray-500 uppercase font-semibold gsc-metric-label">Tổng số Nhấp</p>
-                        <div class="flex justify-between items-baseline mt-1">
-                            <h3 class="text-2xl sm:text-3xl font-extrabold text-blue-700 gsc-total-val" id="total-w1">--</h3>
-                            <span class="text-xs font-semibold px-2 py-1 rounded bg-green-100 text-green-700 gsc-trend transition-colors" id="trend-w1">--%</span>
-                        </div>
-                    </div>
-                    <!-- Chart Canvas -->
-                    <div class="h-32 w-full mt-auto">
-                        <canvas id="chart-w1"></canvas>
-                    </div>
-                </div>
-
-                <!-- Web 2 -->
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-5 border-t-4 border-t-blue-400 flex flex-col hover:shadow-md transition-shadow">
-                    <div class="flex justify-between items-start border-b pb-3 mb-4">
-                        <h3 class="font-bold text-gray-800 text-sm xl:text-base pr-2 truncate" title="architecturalmodel.org">architecturalmodel.org</h3>
-                        <span class="text-[10px] bg-blue-50 border border-blue-100 text-blue-700 px-2 py-0.5 rounded uppercase font-bold tracking-wider flex-shrink-0">Global</span>
-                    </div>
-                    <div class="mb-5 flex-grow">
-                        <p class="text-[10px] sm:text-xs text-gray-500 uppercase font-semibold gsc-metric-label">Tổng số Nhấp</p>
-                        <div class="flex justify-between items-baseline mt-1">
-                            <h3 class="text-2xl sm:text-3xl font-extrabold text-blue-700 gsc-total-val" id="total-w2">--</h3>
-                            <span class="text-xs font-semibold px-2 py-1 rounded bg-green-100 text-green-700 gsc-trend transition-colors" id="trend-w2">--%</span>
-                        </div>
-                    </div>
-                    <!-- Chart Canvas -->
-                    <div class="h-32 w-full mt-auto">
-                        <canvas id="chart-w2"></canvas>
-                    </div>
-                </div>
-
-                <!-- Web 3 -->
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-5 border-t-4 border-t-yellow-500 flex flex-col hover:shadow-md transition-shadow md:col-span-2 lg:col-span-1">
-                    <div class="flex justify-between items-start border-b pb-3 mb-4">
-                        <h3 class="font-bold text-gray-800 text-sm xl:text-base pr-2 truncate" title="mohinhsonganh.com">mohinhsonganh.com</h3>
-                        <span class="text-[10px] bg-yellow-50 border border-yellow-200 text-yellow-700 px-2 py-0.5 rounded uppercase font-bold tracking-wider flex-shrink-0">Sale</span>
-                    </div>
-                    <div class="mb-5 flex-grow">
-                        <p class="text-[10px] sm:text-xs text-gray-500 uppercase font-semibold gsc-metric-label">Tổng số Nhấp</p>
-                        <div class="flex justify-between items-baseline mt-1">
-                            <h3 class="text-2xl sm:text-3xl font-extrabold text-blue-700 gsc-total-val" id="total-w3">--</h3>
-                            <span class="text-xs font-semibold px-2 py-1 rounded bg-green-100 text-green-700 gsc-trend transition-colors" id="trend-w3">--%</span>
-                        </div>
-                    </div>
-                    <!-- Chart Canvas -->
-                    <div class="h-32 w-full mt-auto">
-                        <canvas id="chart-w3"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tóm tắt Website summary -->
-            <div class="mt-6 bg-blue-50 border border-blue-100 p-4 rounded-lg">
-                <h4 class="text-sm font-bold text-blue-900 mb-2 flex items-center">
-                    <span class="mr-2">🌐</span> Tóm tắt tổng quan Website
-                </h4>
-                <p class="text-[11px] sm:text-sm text-blue-800 leading-relaxed">
-                    Website tổng thể đạt <strong>926 Users</strong>. Vấn đề cấp bách cần xử lý là lỗi 404 trên Web chính gây rớt traffic. Tuy nhiên, <strong>SEO Quốc tế</strong> đang rất mạnh với vị trí Top 9.7 và Web bán lẻ có CTR vượt trội (5.8%), mở ra cơ hội lớn cho việc triển khai mảng thương mại vật tư Online.
-                </p>
-            </div>
-        </section>
-
-        <div class="section-divider"></div>
-
-        <!-- Domain Section: Thương mại Bán lẻ Vật tư -->
+ection: Thương mại Bán lẻ Vật tư -->
         <section id="b2c-domain">
             <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-2 border-l-4 border-green-500 pl-3 uppercase">2. LĨNH VỰC THƯƠNG MẠI</h2>
             
@@ -657,7 +655,7 @@
                         },
                         scales: {
                             y: { 
-                                reverse: isPosition,
+                                reverse: false,
                                 title: {
                                     display: isPosition,
                                     text: 'Thứ hạng',
