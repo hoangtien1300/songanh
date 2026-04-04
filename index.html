@@ -156,9 +156,6 @@
             <!-- GSC Module -->
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4 border-l-4 border-blue-400 pl-3">
                 <h3 class="text-lg lg:text-xl font-bold text-gray-800">Google Search Console</h3>
-                <a href="Dashboard_GSC_SongAnh.html" class="inline-flex items-center px-4 py-2 border border-blue-500 text-blue-600 rounded-full text-xs font-bold hover:bg-blue-500 hover:text-white transition-all shadow-sm">
-                    <span class="mr-2">📈</span> XEM BÁO CÁO CHI TIẾT
-                </a>
             </div>
             
             <!-- Control Header -->
@@ -593,13 +590,10 @@
                         </div>
                         <div>
                             <h2 class="text-xl font-bold text-gray-900 uppercase tracking-tight">GSC Performance Report</h2>
-                            <div class="flex items-center mt-1">
-                                <p class="text-xs text-gray-500 font-medium mr-2">Website:</p>
-                                <select id="gsc-report-site-selector" class="text-xs font-bold text-sa-gold bg-transparent border-none focus:ring-0 cursor-pointer uppercase">
-                                    <option value="https://mohinhkientruc.org/">mohinhkientruc.org</option>
-                                    <option value="https://architecturalmodel.org/">architecturalmodel.org</option>
-                                    <option value="https://mohinhsonganh.com/">mohinhsonganh.com</option>
-                                </select>
+                            <div class="flex flex-wrap gap-2 mt-3 items-center" id="gsc-report-site-tabs">
+                                <button class="gsc-site-tab px-3 py-1.5 text-[10px] font-bold rounded-lg border border-gray-200 text-gray-500 hover:border-sa-gold hover:bg-sa-gold hover:bg-opacity-10 transition-all uppercase" data-site="https://mohinhkientruc.org/">mohinhkientruc.org</button>
+                                <button class="gsc-site-tab px-3 py-1.5 text-[10px] font-bold rounded-lg border border-gray-200 text-gray-500 hover:border-sa-gold hover:bg-sa-gold hover:bg-opacity-10 transition-all uppercase" data-site="https://architecturalmodel.org/">architecturalmodel.org</button>
+                                <button class="gsc-site-tab px-3 py-1.5 text-[10px] font-bold rounded-lg border border-gray-200 text-gray-500 hover:border-sa-gold hover:bg-sa-gold hover:bg-opacity-10 transition-all uppercase" data-site="https://mohinhsonganh.com/">mohinhsonganh.com</button>
                             </div>
                         </div>
                     </div>
@@ -608,9 +602,6 @@
                             <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Thời gian:</span>
                             <span id="gsc-report-period-label" class="text-sm font-bold text-sa-gold">--</span>
                         </div>
-                        <button id="btn-export-gsc-pdf" class="bg-sa-gold hover:bg-gray-900 text-white px-5 py-2 rounded-full text-xs font-bold transition-all shadow-md flex items-center">
-                            <span class="mr-2">📥</span> EXPORT PDF
-                        </button>
                     </div>
                 </div>
 
@@ -1010,12 +1001,14 @@
 
             const labels = history.map(h => { const d = h.date.split('-'); return d[2] + '/' + d[1]; });
             const dataPoints = history.map(h => h[metric]);
+            const metricTitle = gscMetricNames[metric] || 'Chỉ số';
 
             gscCharts[id] = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
                     datasets: [{
+                        label: metricTitle,
                         data: dataPoints,
                         borderColor: '#2563eb',
                         backgroundColor: 'rgba(37, 99, 235, 0.1)',
@@ -1024,8 +1017,25 @@
                 },
                 options: {
                     responsive: true, maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: { y: { display: false, reverse: metric === 'position' }, x: { display: false } }
+                    plugins: { 
+                        legend: { display: false },
+                        tooltip: { backgroundColor: 'rgba(0,0,0,0.8)', padding: 10, cornerRadius: 8 }
+                    },
+                    scales: { 
+                        y: { 
+                            display: true, 
+                            reverse: metric === 'position',
+                            title: { display: true, text: metricTitle, font: { size: 10, weight: 'bold' }, color: '#94a3b8' },
+                            ticks: { font: { size: 9 }, color: '#94a3b8' },
+                            grid: { color: '#f3f4f6' }
+                        }, 
+                        x: { 
+                            display: true,
+                            title: { display: true, text: 'Ngày', font: { size: 10, weight: 'bold' }, color: '#94a3b8' },
+                            ticks: { font: { size: 9 }, color: '#94a3b8' },
+                            grid: { display: false }
+                        } 
+                    }
                 }
             });
         }
@@ -1149,20 +1159,34 @@
                     window.gscReportFullData = await response.json();
                     gscReportDataLoaded = true;
                     setupGscReportEvents();
-                    renderGscReport(document.getElementById('gsc-report-site-selector').value);
+                    
+                    // Default to first site
+                    const firstSite = 'https://mohinhkientruc.org/';
+                    renderGscReport(firstSite);
                 } catch (err) {
                     console.error('Failed to load GSC report data:', err);
                 }
             }
 
             function setupGscReportEvents() {
-                document.getElementById('gsc-report-site-selector').addEventListener('change', (e) => {
-                    renderGscReport(e.target.value);
+                document.querySelectorAll('.gsc-site-tab').forEach(tab => {
+                    tab.addEventListener('click', (e) => {
+                        const siteUrl = tab.getAttribute('data-site');
+                        renderGscReport(siteUrl);
+                    });
                 });
-                document.getElementById('btn-export-gsc-pdf').addEventListener('click', handleGscReportExportPDF);
             }
 
             function renderGscReport(siteUrl) {
+                // Highlight active site tab
+                document.querySelectorAll('.gsc-site-tab').forEach(tab => {
+                    if (tab.getAttribute('data-site') === siteUrl) {
+                        tab.className = 'gsc-site-tab px-3 py-1.5 text-[10px] font-bold rounded-lg border border-sa-gold bg-sa-gold text-white shadow-sm transition-all uppercase';
+                    } else {
+                        tab.className = 'gsc-site-tab px-3 py-1.5 text-[10px] font-bold rounded-lg border border-gray-200 text-gray-500 hover:border-sa-gold hover:bg-sa-gold hover:bg-opacity-10 transition-all uppercase';
+                    }
+                });
+
                 const data = window.gscReportFullData[siteUrl];
                 const noData = document.getElementById('gsc-report-no-data');
                 const content = document.getElementById('gsc-report-content');
@@ -1265,29 +1289,6 @@
                     },
                     options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: '#f3f4f6' } }, x: { grid: { display: false } } } }
                 });
-            }
-
-            async function handleGscReportExportPDF(e) {
-                const btn = e.currentTarget;
-                const orig = btn.innerHTML;
-                btn.innerHTML = `<span class="animate-spin mr-2">⏳</span> Processing...`;
-                btn.disabled = true;
-                try {
-                    const el = document.getElementById('view-gsc');
-                    const canvas = await html2canvas(el, { scale: 2, useCORS: true, backgroundColor: '#f9fafb' });
-                    const img = canvas.toDataURL('image/jpeg', 0.95);
-                    const { jsPDF } = window.jspdf;
-                    const pdf = new jsPDF({ orientation: 'portrait', unit: 'px', format: [canvas.width, canvas.height] });
-                    pdf.addImage(img, 'JPEG', 0, 0, canvas.width, canvas.height);
-                    const sName = document.getElementById('gsc-report-site-selector').value.split('//')[1].replace('/', '');
-                    pdf.save(`GSC_Report_${sName}_${new Date().toLocaleDateString()}.pdf`);
-                } catch (err) {
-                    console.error(err);
-                    alert('Lỗi khi xuất PDF.');
-                } finally {
-                    btn.innerHTML = orig;
-                    btn.disabled = false;
-                }
             }
 
             // --- INITIALIZATION ---

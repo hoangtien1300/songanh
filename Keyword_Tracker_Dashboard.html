@@ -147,7 +147,6 @@
                             <th id="th-d1" class="px-3 py-4 text-center">T-1</th>
                             <th id="th-d0" class="px-3 py-4 text-center bg-blue-50 text-blue-800 border-x border-blue-100 shadow-sm relative z-30">Hôm nay</th>
                             
-                            <th class="px-3 py-4 text-center leading-tight">Biến động<br><span class="text-[9px] font-normal text-slate-400 normal-case">(So với T-1)</span></th>
                             <th class="px-3 py-4 text-center min-w-[120px]">Đường xu hướng</th>
                         </tr>
                     </thead>
@@ -361,7 +360,6 @@
                         </td>
                         <td class="px-3 py-4 text-center text-slate-500">${Number(strVolToInt(volStr)).toLocaleString()}</td>
                         ${rowtds}
-                        <td class="px-3 py-4 text-center text-[13px]">${changeHtml}</td>
                         <td class="px-3 py-3"><div class="sparkline-container mx-auto"><canvas id="chart-${displayIndex-1}"></canvas></div></td>
                     </tr>
                 `);
