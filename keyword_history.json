@@ -1,0 +1,222 @@
+{
+    "keywords": {
+        "làm mô hình kiến trúc": {
+            "url": "https://mohinhkientruc.org/lam-mo-hinh-kien-truc/",
+            "vol": 1200,
+            "history": {
+                "2026-03-24": 15,
+                "2026-03-25": 15,
+                "2026-03-26": 14,
+                "2026-03-27": 12,
+                "2026-03-28": 12,
+                "2026-03-29": 11,
+                "2026-03-30": 10
+            }
+        },
+        "thiết kế mô hình": {
+            "url": "https://mohinhkientruc.org/thiet-ke-mo-hinh/",
+            "vol": 800,
+            "history": {
+                "2026-03-24": 8,
+                "2026-03-25": 8,
+                "2026-03-26": 8,
+                "2026-03-27": 9,
+                "2026-03-28": 9,
+                "2026-03-29": 10,
+                "2026-03-30": 11
+            }
+        },
+        "xưởng làm mô hình": {
+            "url": "https://mohinhkientruc.org/xuong-lam-mo-hinh/",
+            "vol": 2500,
+            "history": {
+                "2026-03-24": 25,
+                "2026-03-25": 22,
+                "2026-03-26": 20,
+                "2026-03-27": 18,
+                "2026-03-28": 15,
+                "2026-03-29": 12,
+                "2026-03-30": 12
+            }
+        },
+        "mô hình nhà máy": {
+            "url": "https://mohinhkientruc.org/mo-hinh-nha-may/",
+            "vol": 0,
+            "history": {
+                "2026-03-31": 29,
+                "2026-04-04": 39
+            }
+        },
+        "sa bàn nhà máy": {
+            "url": "https://mohinhkientruc.org/",
+            "vol": 0,
+            "history": {
+                "2026-03-31": 18,
+                "2026-04-04": 15
+            }
+        },
+        "mô hình kiến trúc": {
+            "url": "https://mohinhkientruc.org/",
+            "vol": 0,
+            "history": {
+                "2026-03-31": 2,
+                "2026-04-04": 1
+            }
+        },
+        "sa bàn kiến trúc": {
+            "url": "https://mohinhkientruc.org/",
+            "vol": 0,
+            "history": {
+                "2026-03-31": 19,
+                "2026-04-04": 8
+            }
+        },
+        "mô hình quy hoạch": {
+            "url": "https://mohinhkientruc.org/danh-muc-du-an/mo-hinh-quy-hoach/",
+            "vol": 0,
+            "history": {
+                "2026-03-31": 49,
+                "2026-04-04": 2
+            }
+        },
+        "sa bàn quy hoạch": {
+            "url": "https://mohinhkientruc.org/sa-ban-cao-tang/",
+            "vol": 0,
+            "history": {
+                "2026-03-31": 25,
+                "2026-04-04": 26
+            }
+        },
+        "sa bàn giao thông đèo cả": {
+            "url": "https://mohinhkientruc.org/du-an/sa-ban-giao-thong-deo-ca/",
+            "vol": 0,
+            "history": {
+                "2026-03-31": 1,
+                "2026-04-04": 1
+            }
+        },
+        "Mô hình nhà máy Nidec Tosok Akiba": {
+            "url": "https://mohinhkientruc.org/du-an/nha-may-nidec-tosok-akiba/",
+            "vol": 0,
+            "history": {
+                "2026-03-31": 1,
+                "2026-04-04": 1
+            }
+        },
+        "Mô hình nhà máy PEB Steel": {
+            "url": "https://mohinhkientruc.org/du-an/nha-may-peb-steel-tai-tan-binh/",
+            "vol": 0,
+            "history": {
+                "2026-03-31": 5,
+                "2026-04-04": 6
+            }
+        },
+        "Mô hình nhà máy EON Industry": {
+            "url": "https://mohinhkientruc.org/du-an/mo-hinh-nha-may-eon-industry-viet-nam/",
+            "vol": 0,
+            "history": {
+                "2026-03-31": 1,
+                "2026-04-04": 101
+            }
+        },
+        "Mô hình nhà mẫu Casa Bonita": {
+            "url": "https://mohinhkientruc.org/du-an/mo-hinh-nha-mau-casa-bonita-nghe-an/",
+            "vol": 0,
+            "history": {
+                "2026-03-31": 1,
+                "2026-04-04": 1
+            }
+        },
+        "mô hình bệnh viện Nhi đồng 1": {
+            "url": "https://mohinhkientruc.org/du-an/mo-hinh-benh-vien-nhi-dong-1/",
+            "vol": 0,
+            "history": {
+                "2026-03-31": 1,
+                "2026-04-04": 2
+            }
+        },
+        "mô hình chung cư": {
+            "url": "https://mohinhkientruc.org/mo-hinh-chung-cu/",
+            "vol": 0,
+            "history": {
+                "2026-03-31": 1,
+                "2026-04-04": 1
+            }
+        },
+        "Mô hình chung cư Bcons The New Point": {
+            "url": "https://mohinhkientruc.org/du-an/mo-hinh-chung-cu-bcons-the-new-point/",
+            "vol": 0,
+            "history": {
+                "2026-03-31": 1,
+                "2026-04-04": 1
+            }
+        },
+        "làm sa bàn trường học": {
+            "url": "https://mohinhkientruc.org/lam-sa-ban-truong-hoc/",
+            "vol": 0,
+            "history": {
+                "2026-03-31": 25,
+                "2026-04-04": 25
+            }
+        },
+        "sa bàn trường học": {
+            "url": "https://mohinhkientruc.org/lam-sa-ban-truong-hoc/",
+            "vol": 0,
+            "history": {
+                "2026-03-31": 21,
+                "2026-04-04": 20
+            }
+        },
+        "sa bàn bệnh viện": {
+            "url": "https://mohinhkientruc.org/sa-ban-tai-can-tho/",
+            "vol": 0,
+            "history": {
+                "2026-03-31": 2,
+                "2026-04-04": 23
+            }
+        },
+        "mô hình bệnh viện": {
+            "url": "https://mohinhkientruc.org/du-an/mo-hinh-benh-vien-truyen-mau-huyet-hoc/",
+            "vol": 0,
+            "history": {
+                "2026-03-31": 31,
+                "2026-04-04": 101
+            }
+        },
+        "mohinhkientruc -org": {
+            "url": NaN,
+            "vol": 0,
+            "history": {
+                "2026-04-04": 101
+            }
+        },
+        "mô hình trường học": {
+            "url": NaN,
+            "vol": 0,
+            "history": {
+                "2026-04-04": 101
+            }
+        },
+        "báo giá mô hình nhà máy": {
+            "url": "https://mohinhkientruc.org/",
+            "vol": 0,
+            "history": {
+                "2026-04-04": 21
+            }
+        },
+        "mô hình kiến trúc nhà máy": {
+            "url": "https://mohinhkientruc.org/",
+            "vol": 0,
+            "history": {
+                "2026-04-04": 14
+            }
+        },
+        "làm mô hình nhà máy": {
+            "url": "https://mohinhkientruc.org/",
+            "vol": 0,
+            "history": {
+                "2026-04-04": 8
+            }
+        }
+    }
+}
