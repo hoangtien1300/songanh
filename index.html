@@ -98,7 +98,7 @@
                 <a href="#" data-target="view-keyword" class="nav-item flex-shrink-0 flex items-center px-4 py-2 lg:py-3 text-sm rounded-xl text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200">
                     <span class="mr-2 lg:mr-3 text-base lg:text-lg w-5 lg:w-6 text-center">📈</span> Thứ hạng từ khóa
                 </a>
-                <a href="#" data-target="view-updating" class="nav-item flex-shrink-0 flex items-center px-4 py-2 lg:py-3 text-sm rounded-xl text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200">
+                <a href="Dashboard_GSC_SongAnh.html" class="flex-shrink-0 flex items-center px-4 py-2 lg:py-3 text-sm rounded-xl text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200">
                     <span class="mr-2 lg:mr-3 text-base lg:text-lg w-5 lg:w-6 text-center">🔍</span> Google Search Console
                 </a>
                 <a href="#" data-target="view-updating" class="nav-item flex-shrink-0 flex items-center px-4 py-2 lg:py-3 text-sm rounded-xl text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200">
@@ -152,7 +152,12 @@
             </div>
 
             <!-- GSC Module -->
-            <h3 class="text-lg lg:text-xl font-bold text-gray-800 mb-4 border-l-4 border-blue-400 pl-3">Google Search Console</h3>
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4 border-l-4 border-blue-400 pl-3">
+                <h3 class="text-lg lg:text-xl font-bold text-gray-800">Google Search Console</h3>
+                <a href="Dashboard_GSC_SongAnh.html" class="inline-flex items-center px-4 py-2 border border-blue-500 text-blue-600 rounded-full text-xs font-bold hover:bg-blue-500 hover:text-white transition-all shadow-sm">
+                    <span class="mr-2">📈</span> XEM BÁO CÁO CHI TIẾT
+                </a>
+            </div>
             
             <!-- Control Header -->
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
@@ -745,30 +750,9 @@
             });
         }
 
-        // --- MOCK DATA CHO GSC ---
-        const gscMock = {
-            labels7d: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
-            labels30d: Array.from({length: 30}, (_, i) => `Ngày ${i+1}`),
-            w1: { // mohinhkientruc.org
-                clicks: { '7d': { total: '9', data: [1, 2, 0, 1, 3, 2, 0], trend: '↑ 12%' }, '30d': { total: '38', data: [0,1,1,2,0,1,1,2,3,1,0,0,1,2,2,3,1,0,1,1,2,1,0,1,2,3,3,2,1,0], trend: '↑ 5%' } },
-                impressions: { '7d': { total: '1,242', data: [150, 180, 200, 170, 190, 160, 192], trend: '↑ 4%' }, '30d': { total: '4,520', data: Array.from({length:30}, ()=>Math.floor(100+Math.random()*100)), trend: '↑ 2%' } },
-                ctr: { '7d': { total: '0.7%', data: [0.6, 1.1, 0, 0.5, 1.5, 1.2, 0], trend: '↑ 0.1%' }, '30d': { total: '0.8%', data: Array.from({length:30}, ()=>+(Math.random()*2).toFixed(1)), trend: '↑ 0.2%' } },
-                position: { '7d': { total: '23.4', data: [28, 25, 23, 22, 21, 24, 23.4], trend: '↑ 4.6' }, '30d': { total: '25.1', data: Array.from({length:30}, ()=>Math.floor(20+Math.random()*10)), trend: '↑ 2.0' } }
-            },
-            w2: { // architecturalmodel.org
-                clicks: { '7d': { total: '40', data: [5, 6, 4, 8, 7, 5, 5], trend: '↑ 25%' }, '30d': { total: '150', data: Array.from({length:30}, ()=>Math.floor(2+Math.random()*6)), trend: '↑ 15%' } },
-                impressions: { '7d': { total: '2,060', data: [250, 300, 280, 320, 310, 290, 310], trend: '↑ 8%' }, '30d': { total: '8,200', data: Array.from({length:30}, ()=>Math.floor(200+Math.random()*150)), trend: '↑ 10%' } },
-                ctr: { '7d': { total: '1.9%', data: [2.0, 2.0, 1.4, 2.5, 2.2, 1.7, 1.6], trend: '↑ 0.3%' }, '30d': { total: '1.8%', data: Array.from({length:30}, ()=>+(1+Math.random()*2).toFixed(1)), trend: '↑ 0.1%' } },
-                position: { '7d': { total: '9.7', data: [11.2, 10.5, 10.2, 9.8, 9.5, 9.6, 9.7], trend: '↑ 1.5' }, '30d': { total: '10.5', data: Array.from({length:30}, ()=>Math.floor(8+Math.random()*6)), trend: '↑ 0.5' } }
-            },
-            w3: { // mohinhsonganh.com
-                clicks: { '7d': { total: '14', data: [2, 1, 3, 2, 2, 1, 3], trend: '↑ 40%' }, '30d': { total: '45', data: Array.from({length:30}, ()=>Math.floor(0+Math.random()*4)), trend: '↑ 20%' } },
-                impressions: { '7d': { total: '241', data: [30, 40, 35, 25, 45, 36, 30], trend: '↓ 5%' }, '30d': { total: '1,100', data: Array.from({length:30}, ()=>Math.floor(20+Math.random()*30)), trend: '↑ 12%' } },
-                ctr: { '7d': { total: '5.8%', data: [6.6, 2.5, 8.5, 8.0, 4.4, 2.7, 10.0], trend: '↑ 1.5%' }, '30d': { total: '4.0%', data: Array.from({length:30}, ()=>+(2+Math.random()*4).toFixed(1)), trend: '↑ 0.8%' } },
-                position: { '7d': { total: '6.9', data: [7.5, 7.2, 6.8, 6.5, 6.9, 7.0, 6.9], trend: '↑ 0.6' }, '30d': { total: '7.5', data: Array.from({length:30}, ()=>Math.floor(5+Math.random()*5)), trend: '↑ 1.2' } }
-            }
-        };
-
+        // --- GSC DATA FETCHING ---
+        let gscSiteData = {};
+        let gscCharts = { 'w1': null, 'w2': null, 'w3': null };
         const gscMetricNames = {
             'clicks': 'Tổng số Nhấp',
             'impressions': 'Tổng Hiển thị',
@@ -776,208 +760,78 @@
             'position': 'Vị trí Trung bình'
         };
 
-        // --- SEO KEYWORD CONFIG ---
-        const SEO_SPREADSHEET_ID = '1lrm94N_ej-qbfGmRWVmx6WcmQHHXubCcH84t2UZJ8w8';
-        const SEO_URLS = {
-            'kw1': `https://docs.google.com/spreadsheets/d/${SEO_SPREADSHEET_ID}/gviz/tq?tqx=out:csv&gid=831977248`, 
-            'kw2': `https://docs.google.com/spreadsheets/d/${SEO_SPREADSHEET_ID}/gviz/tq?tqx=out:csv&gid=1050733309`,
-            'kw3': `https://docs.google.com/spreadsheets/d/${SEO_SPREADSHEET_ID}/gviz/tq?tqx=out:csv&gid=1263154050` 
-        };
-
-        function getRankVal(val) {
-            if (!val || val.trim() === '' || val.trim() === '-') return 101; 
-            let num = parseInt(val);
-            return isNaN(num) ? 101 : num;
+        async function initGscIntegration() {
+            try {
+                const response = await fetch('gsc_dashboard_data.json');
+                gscSiteData = await response.json();
+                renderGscView('clicks'); 
+                setupGscEvents();
+            } catch (err) {
+                console.warn('GSC data file not found.');
+            }
         }
 
-        async function loadKeywordData(siteId) {
-            const url = SEO_URLS[siteId];
-            if (!url) return;
-
-            // Show loading state
-            document.querySelectorAll('.kw-val').forEach(el => el.classList.add('animate-pulse', 'text-gray-300'));
-
-            Papa.parse(url, {
-                download: true,
-                header: true,
-                skipEmptyLines: true,
-                complete: function(results) {
-                    const data = results.data;
-                    if (!data || data.length === 0) return;
-
-                    // Extract columns
-                    const allHeaders = Object.keys(data[0]);
-                    const baseHeaders = allHeaders.filter(h => ['từ khóa', 'keyword', 'url', 'link', 'volume', 'vol'].includes(h.toLowerCase()));
-                    const dateHeaders = allHeaders.filter(h => !baseHeaders.includes(h));
-                    
-                    const t0_key = dateHeaders[dateHeaders.length - 1]; 
-                    const t1_key = dateHeaders.length > 1 ? dateHeaders[dateHeaders.length - 2] : null;
-
-                    let totalKw = 0, top3 = 0, top10 = 0, kwUp = 0;
-
-                    data.forEach(row => {
-                        const kw = row['Từ khóa'] || row['Keyword'] || '';
-                        if (!kw || kw.toLowerCase().includes('-org') || kw.toLowerCase().includes('.com') || kw === 'Từ khóa') return;
-
-                        totalKw++;
-                        const r0 = getRankVal(row[t0_key]);
-                        const r1 = t1_key ? getRankVal(row[t1_key]) : r0;
-
-                        if (r0 <= 3) top3++;
-                        if (r0 <= 10) top10++;
-                        if (r0 < r1) kwUp++;
-                    });
-
-                    // Update DOM
-                    document.getElementById('kw-total').innerText = totalKw;
-                    document.getElementById('kw-top3').innerText = top3;
-                    document.getElementById('kw-top10').innerText = top10;
-                    document.getElementById('kw-up').innerText = totalKw > 0 ? ((kwUp / totalKw) * 100).toFixed(1) + '%' : '0%';
-
-                    document.querySelectorAll('.kw-val').forEach(el => el.classList.remove('animate-pulse', 'text-gray-300'));
-                },
-                error: function(err) {
-                    console.error("Error loading SEO data:", err);
-                }
-            });
-        }
-
-        // GSC State
-        let currentGscMetric = 'clicks';
-        let currentGscTimeframe = '7d';
-        let gscCharts = {};
-
-        function initGscCharts() {
-            renderGscView();
-
-            // Event Listeners for Tabs
+        function setupGscEvents() {
             document.querySelectorAll('.gsc-tab').forEach(tab => {
                 tab.addEventListener('click', (e) => {
-                    // Update active styling
                     document.querySelectorAll('.gsc-tab').forEach(t => {
-                        t.classList.remove('bg-blue-100', 'text-blue-800');
-                        t.classList.add('text-gray-600', 'hover:bg-gray-100');
+                        t.className = 'gsc-tab whitespace-nowrap px-4 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors text-gray-600 hover:bg-gray-100';
                     });
-                    e.target.classList.remove('text-gray-600', 'hover:bg-gray-100');
-                    e.target.classList.add('bg-blue-100', 'text-blue-800');
-
-                    currentGscMetric = e.target.getAttribute('data-metric');
-                    renderGscView();
+                    e.target.className = 'gsc-tab whitespace-nowrap px-4 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors bg-blue-100 text-blue-800';
+                    renderGscView(e.target.getAttribute('data-metric'));
                 });
             });
+            document.getElementById('gsc-timefilter').addEventListener('change', () => renderGscView(getGscActiveMetric()));
+        }
 
-            // Event Listener for Dropdown
-            document.getElementById('gsc-timefilter').addEventListener('change', (e) => {
-                currentGscTimeframe = e.target.value;
-                renderGscView();
+        function getGscActiveMetric() {
+            const activeTab = document.querySelector('.gsc-tab.bg-blue-100');
+            return activeTab ? activeTab.getAttribute('data-metric') : 'clicks';
+        }
+
+        function renderGscView(metric) {
+            const sites = { 'w1': 'https://mohinhkientruc.org/', 'w2': 'https://architecturalmodel.org/', 'w3': 'https://mohinhsonganh.com/' };
+
+            Object.entries(sites).forEach(([id, url]) => {
+                const siteData = gscSiteData[url];
+                if (!siteData) return;
+
+                const metricData = siteData.metrics[metric];
+                document.getElementById(`total-${id}`).innerText = metricData.total;
+                const trendEl = document.getElementById(`trend-${id}`);
+                trendEl.innerText = metricData.trend;
+                
+                const isPositive = metricData.trend.includes('↑');
+                const isGood = (metric === 'position') ? !isPositive : isPositive;
+                trendEl.className = `text-xs font-semibold px-2 py-1 rounded ${isGood ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`;
+
+                renderGscChart(id, metric, siteData.daily_stats);
             });
         }
 
-        function renderGscView() {
-            const labels = currentGscTimeframe === '7d' ? gscMock.labels7d : gscMock.labels30d;
-            
-            // Loop through w1, w2, w3
-            ['w1', 'w2', 'w3'].forEach(siteId => {
-                const metricData = gscMock[siteId][currentGscMetric][currentGscTimeframe];
-                
-                // Cập nhật DOM bằng metricData
-                document.getElementById(`total-${siteId}`).innerText = metricData.total;
-                document.getElementById(`trend-${siteId}`).innerText = metricData.trend;
-                
-                // Color formatting for trend
-                const trendEl = document.getElementById(`trend-${siteId}`);
-                if (metricData.trend.includes('↓')) {
-                    trendEl.classList.remove('bg-green-100', 'text-green-700');
-                    trendEl.classList.add('bg-red-100', 'text-red-700');
-                } else {
-                    trendEl.classList.remove('bg-red-100', 'text-red-700');
-                    trendEl.classList.add('bg-green-100', 'text-green-700');
+        function renderGscChart(id, metric, history) {
+            const ctx = document.getElementById(`chart-${id}`).getContext('2d');
+            if (gscCharts[id]) gscCharts[id].destroy();
+
+            const labels = history.map(h => { const d = h.date.split('-'); return d[2] + '/' + d[1]; });
+            const dataPoints = history.map(h => h[metric]);
+
+            gscCharts[id] = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: dataPoints,
+                        borderColor: '#2563eb',
+                        backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                        fill: true, tension: 0.4, borderWidth: 2, pointRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { display: false, reverse: metric === 'position' }, x: { display: false } }
                 }
-
-                // Cập nhật biểu đồ
-                const canvasId = `chart-${siteId}`;
-                const ctx = document.getElementById(canvasId).getContext('2d');
-                
-                if (gscCharts[siteId]) {
-                    gscCharts[siteId].destroy();
-                }
-
-                let isPosition = currentGscMetric === 'position';
-                let gradient = ctx.createLinearGradient(0, 0, 0, 150);
-                gradient.addColorStop(0, isPosition ? 'rgba(234, 179, 8, 0.4)' : 'rgba(59, 130, 246, 0.4)');
-                gradient.addColorStop(1, isPosition ? 'rgba(234, 179, 8, 0.0)' : 'rgba(59, 130, 246, 0.0)');
-
-                let borderColor = isPosition ? '#eab308' : '#3b82f6';
-                let pointColor = borderColor;
-
-                gscCharts[siteId] = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: gscMetricNames[currentGscMetric],
-                            data: metricData.data,
-                            borderColor: borderColor,
-                            backgroundColor: gradient,
-                            borderWidth: 2,
-                            pointRadius: 2,
-                            pointBackgroundColor: '#ffffff',
-                            pointBorderColor: pointColor,
-                            fill: true,
-                            tension: 0.3
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: { display: false },
-                            tooltip: {
-                                callbacks: {
-                                    label: (context) => {
-                                      return `${gscMetricNames[currentGscMetric]}: ${context.parsed.y}`;
-                                    }
-                                }
-                            }
-                        },
-                        scales: {
-                            y: { 
-                                reverse: false,
-                                title: {
-                                    display: isPosition,
-                                    text: 'Thứ hạng',
-                                    font: { size: 10 }
-                                },
-                                ticks: {
-                                    font: { size: 10 }
-                                },
-                                border: { display: false },
-                                grid: { 
-                                    color: '#f3f4f6', 
-                                    drawBorder: false
-                                } 
-                            },
-                            x: { 
-                                title: {
-                                    display: isPosition,
-                                    text: 'Thời gian',
-                                    font: { size: 10 }
-                                },
-                                ticks: {
-                                    font: { size: 10 },
-                                    maxTicksLimit: 7
-                                },
-                                border: { display: false },
-                                grid: { display: false } 
-                            }
-                        }
-                    }
-                });
-            });
-
-            // Update all metric labels in cards
-            document.querySelectorAll('.gsc-metric-label').forEach(el => {
-                el.innerText = gscMetricNames[currentGscMetric];
             });
         }
 
@@ -1020,8 +874,7 @@
             }
 
             renderCharts();
-            
-            initGscCharts();
+            initGscIntegration();
 
             // Keyword Tabs logic
             const kwTabs = document.querySelectorAll('.kw-tab');

@@ -1,0 +1,34 @@
+{
+  "https://mohinhkientruc.org/": {
+    "site_url": "https://mohinhkientruc.org/",
+    "period_label": "2026-03-29 to 2026-04-04",
+    "metrics": {
+      "clicks": { "total": 9, "trend": "↑ 12.5%" },
+      "impressions": { "total": 1242, "trend": "↑ 4.2%" },
+      "ctr": { "total": "0.7%", "trend": "↑ 0.1%" },
+      "position": { "total": "23.4", "trend": "↑ 1.6" }
+    },
+    "daily_stats": [
+      { "date": "2026-03-29", "clicks": 1, "impressions": 150, "ctr": 0.006, "position": 25 },
+      { "date": "2026-03-30", "clicks": 2, "impressions": 180, "ctr": 0.011, "position": 24 },
+      { "date": "2026-03-31", "clicks": 0, "impressions": 200, "ctr": 0, "position": 28 },
+      { "date": "2026-04-01", "clicks": 1, "impressions": 170, "ctr": 0.005, "position": 23 },
+      { "date": "2026-04-02", "clicks": 3, "impressions": 190, "ctr": 0.015, "position": 21 },
+      { "date": "2026-04-03", "clicks": 2, "impressions": 160, "ctr": 0.012, "position": 24 },
+      { "date": "2026-04-04", "clicks": 0, "impressions": 192, "ctr": 0, "position": 23 }
+    ],
+    "top_queries": [
+      { "query": "sa bàn kiến trúc", "clicks": 5, "impressions": 120 },
+      { "query": "mô hình kiến trúc", "clicks": 3, "impressions": 85 },
+      { "query": "song anh marketing", "clicks": 1, "impressions": 10 }
+    ],
+    "top_pages": [
+      { "page": "https://mohinhkientruc.org/", "clicks": 7 },
+      { "page": "https://mohinhkientruc.org/du-an/", "clicks": 2 }
+    ],
+    "top_countries": [
+      { "country": "Vietnam", "clicks": 9 }
+    ],
+    "search_types": { "web": 9, "image": 2, "video": 0 }
+  }
+}
