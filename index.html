@@ -7,6 +7,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         .text-sa-gold { color: #D4AF37; }
         .bg-sa-gold { background-color: #D4AF37; }
@@ -98,7 +100,7 @@
                 <a href="#" data-target="view-keyword" class="nav-item flex-shrink-0 flex items-center px-4 py-2 lg:py-3 text-sm rounded-xl text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200">
                     <span class="mr-2 lg:mr-3 text-base lg:text-lg w-5 lg:w-6 text-center">📈</span> Thứ hạng từ khóa
                 </a>
-                <a href="Dashboard_GSC_SongAnh.html" class="flex-shrink-0 flex items-center px-4 py-2 lg:py-3 text-sm rounded-xl text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200">
+                <a href="#" data-target="view-gsc" class="nav-item flex-shrink-0 flex items-center px-4 py-2 lg:py-3 text-sm rounded-xl text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200">
                     <span class="mr-2 lg:mr-3 text-base lg:text-lg w-5 lg:w-6 text-center">🔍</span> Google Search Console
                 </a>
                 <a href="#" data-target="view-updating" class="nav-item flex-shrink-0 flex items-center px-4 py-2 lg:py-3 text-sm rounded-xl text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200">
@@ -582,6 +584,199 @@
                 <iframe src="Keyword_Tracker_Dashboard.html" class="w-full flex-grow min-h-[85vh] rounded-2xl shadow-sm border border-gray-200" title="Keyword Tracker"></iframe>
             </div>
 
+            <!-- GSC Detailed View -->
+            <div id="view-gsc" class="hidden space-y-8 pb-12">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-4 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="flex items-center space-x-4">
+                        <div class="p-3 bg-sa-gold bg-opacity-10 rounded-xl">
+                            <span class="text-2xl">🔍</span>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-bold text-gray-900 uppercase tracking-tight">GSC Performance Report</h2>
+                            <div class="flex items-center mt-1">
+                                <p class="text-xs text-gray-500 font-medium mr-2">Website:</p>
+                                <select id="gsc-report-site-selector" class="text-xs font-bold text-sa-gold bg-transparent border-none focus:ring-0 cursor-pointer uppercase">
+                                    <option value="https://mohinhkientruc.org/">mohinhkientruc.org</option>
+                                    <option value="https://architecturalmodel.org/">architecturalmodel.org</option>
+                                    <option value="https://mohinhsonganh.com/">mohinhsonganh.com</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="hidden sm:flex items-center space-x-3 bg-gray-50 px-4 py-2 rounded-full border border-gray-100">
+                            <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Thời gian:</span>
+                            <span id="gsc-report-period-label" class="text-sm font-bold text-sa-gold">--</span>
+                        </div>
+                        <button id="btn-export-gsc-pdf" class="bg-sa-gold hover:bg-gray-900 text-white px-5 py-2 rounded-full text-xs font-bold transition-all shadow-md flex items-center">
+                            <span class="mr-2">📥</span> EXPORT PDF
+                        </button>
+                    </div>
+                </div>
+
+                <div id="gsc-report-no-data" class="hidden bg-red-50 border border-red-200 p-8 rounded-2xl text-center">
+                    <h3 class="text-lg font-bold text-red-600 mb-2">Oops! Không có dữ liệu</h3>
+                    <p class="text-gray-600 text-sm italic">Tài khoản này hiện chưa có quyền truy cập vào Property GSC của trang web này. Hãy cấp quyền cho service account email của Song Anh để xem báo cáo.</p>
+                </div>
+
+                <div id="gsc-report-content" class="space-y-8">
+                    <!-- Summary Cards -->
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                        <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 border-l-4 border-l-sa-gold">
+                            <div class="flex justify-between items-start mb-1">
+                                 <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Số lượt nhấp</p>
+                                 <span id="gsc-report-trend-clicks" class="text-[10px] font-bold px-2 py-0.5 rounded-full">--</span>
+                            </div>
+                            <div class="flex items-end space-x-2">
+                                <h3 id="gsc-report-total-clicks" class="text-3xl font-bold text-gray-900">--</h3>
+                                <span class="text-xs font-bold text-sa-gold mb-1">🖱️</span>
+                            </div>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 border-l-4 border-l-blue-400">
+                            <div class="flex justify-between items-start mb-1">
+                                 <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Lượt hiển thị</p>
+                                 <span id="gsc-report-trend-impressions" class="text-[10px] font-bold px-2 py-0.5 rounded-full">--</span>
+                            </div>
+                            <div class="flex items-end space-x-2">
+                                <h3 id="gsc-report-total-impressions" class="text-3xl font-bold text-gray-900">--</h3>
+                                <span class="text-xs font-bold text-blue-500 mb-1">👁️</span>
+                            </div>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 border-l-4 border-l-purple-400">
+                            <div class="flex justify-between items-start mb-1">
+                                 <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">CTR Trung bình</p>
+                                 <span id="gsc-report-trend-ctr" class="text-[10px] font-bold px-2 py-0.5 rounded-full">--</span>
+                            </div>
+                            <div class="flex items-end space-x-2">
+                                <h3 id="gsc-report-avg-ctr" class="text-3xl font-bold text-gray-900">--%</h3>
+                                <span class="text-xs font-bold text-purple-500 mb-1">📈</span>
+                            </div>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 border-l-4 border-l-orange-400">
+                            <div class="flex justify-between items-start mb-1">
+                                 <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Vị trí trung bình</p>
+                                 <span id="gsc-report-trend-position" class="text-[10px] font-bold px-2 py-0.5 rounded-full">--</span>
+                            </div>
+                            <div class="flex items-end space-x-2">
+                                <h3 id="gsc-report-avg-position" class="text-3xl font-bold text-gray-900">#--</h3>
+                                <span class="text-xs font-bold text-orange-500 mb-1">📍</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Chart Section -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                            <div class="flex justify-between items-center mb-6">
+                                <h4 class="font-bold text-gray-900 flex items-center italic">
+                                    <span class="w-2 h-2 bg-sa-gold rounded-full mr-2"></span> Biểu đồ lượt nhấp theo ngày
+                                </h4>
+                            </div>
+                            <div class="chart-container" style="height: 350px;">
+                                <canvas id="gsc-report-main-chart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                            <h4 class="font-bold text-gray-900 mb-6 flex items-center italic">
+                                <span class="w-2 h-2 bg-blue-400 rounded-full mr-2"></span> Nguồn lưu lượng
+                            </h4>
+                            <div class="space-y-6">
+                                <div class="relative">
+                                    <div class="flex justify-between text-[11px] font-bold mb-1 uppercase tracking-wider">
+                                        <span>Web Search</span>
+                                        <span class="text-gray-900 font-bold" id="gsc-report-web-clicks">--</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
+                                        <div id="gsc-report-web-bar" class="bg-sa-gold h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                <div class="relative">
+                                    <div class="flex justify-between text-[11px] font-bold mb-1 uppercase tracking-wider">
+                                        <span>Image Search</span>
+                                        <span class="text-gray-900 font-bold" id="gsc-report-image-clicks">--</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
+                                        <div id="gsc-report-image-bar" class="bg-blue-400 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                <div class="relative">
+                                    <div class="flex justify-between text-[11px] font-bold mb-1 uppercase tracking-wider">
+                                        <span>Video Search</span>
+                                        <span class="text-gray-900 font-bold" id="gsc-report-video-clicks">--</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
+                                        <div id="gsc-report-video-bar" class="bg-purple-400 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-8 pt-6 border-t border-gray-50 text-center">
+                                <h5 class="text-[10px] font-bold text-gray-400 uppercase mb-3">Quốc gia hàng đầu</h5>
+                                <div id="gsc-report-country-list" class="space-y-2"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tables Section -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                            <div class="px-6 py-5 border-b border-gray-50 flex justify-between items-center bg-gray-50">
+                                <h4 class="font-bold text-gray-900 italic text-sm">Cụm từ tìm kiếm (Keywords)</h4>
+                                <span class="text-[10px] bg-sa-gold bg-opacity-10 text-sa-gold px-2 py-1 rounded font-bold uppercase">TOP 10</span>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-xs sm:text-sm text-left">
+                                    <thead>
+                                        <tr class="text-[10px] uppercase text-gray-400 font-bold border-b border-gray-50">
+                                            <th class="px-6 py-3">Từ khóa</th>
+                                            <th class="px-6 py-3 text-right">Nhấp</th>
+                                            <th class="px-6 py-3 text-right">Hiển thị</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="gsc-report-query-table-body"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                            <div class="px-6 py-5 border-b border-gray-50 flex justify-between items-center bg-gray-50">
+                                <h4 class="font-bold text-gray-900 italic text-sm">Các trang truy cập nhiều nhất</h4>
+                                <span class="text-[10px] bg-blue-50 text-blue-500 px-2 py-1 rounded font-bold uppercase">TOP 5</span>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-xs sm:text-sm text-left">
+                                    <thead>
+                                        <tr class="text-[10px] uppercase text-gray-400 font-bold border-b border-gray-50">
+                                            <th class="px-6 py-3">Đường dẫn trang</th>
+                                            <th class="px-6 py-3 text-right">Nhấp</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="gsc-report-page-table-body"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Evaluation -->
+                    <section class="bg-gray-900 text-white p-8 rounded-3xl shadow-xl relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
+                            <svg width="80" height="80" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-6h2v6zm0-8h-2V7h2v2zm4 8h-2V9h2v8z"/></svg>
+                        </div>
+                        <h2 class="text-xl font-bold text-sa-gold mb-6 border-b border-gray-800 pb-4 uppercase tracking-widest italic">🔍 Phân tích dữ liệu SEO (AI Insight)</h2>
+                        <div id="gsc-report-ai-evaluation" class="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm leading-relaxed text-gray-300">
+                            <div class="space-y-4">
+                                <div class="flex space-x-3"><span class="text-sa-gold font-bold">●</span><p id="gsc-ai-1"></p></div>
+                                <div class="flex space-x-3"><span class="text-sa-gold font-bold">●</span><p id="gsc-ai-2"></p></div>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="flex space-x-3"><span class="text-blue-400 font-bold">>></span><p id="gsc-ai-3"></p></div>
+                                <div class="flex space-x-3"><span class="text-blue-400 font-bold">>></span><p id="gsc-ai-4"></p></div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
             <div id="view-updating" class="hidden flex-col items-center justify-center min-h-[60vh] text-center bg-white rounded-3xl shadow-sm border border-gray-100 p-8 sm:p-12 mb-8">
                 <div class="text-7xl mb-6 bounce-animation">🚧</div>
                 <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 tracking-tight">Giao diện đang được update</h2>
@@ -855,145 +1050,273 @@
             }
         };
 
-        document.addEventListener('DOMContentLoaded', () => {
-            
-            // Sync time label
-            const globalFilter = document.getElementById('global-time-filter');
-            const customerLabel = document.getElementById('customer-time-label');
-            const customerLabelTm = document.getElementById('customer-time-label-tm');
-            if (globalFilter) {
-                if(customerLabel) customerLabel.innerText = "tuần " + globalFilter.innerText;
-                if(customerLabelTm) customerLabelTm.innerText = "tuần " + globalFilter.innerText;
-                
-                // Add an observer if header changes dynamically
-                const observer = new MutationObserver(() => {
-                    if(customerLabel) customerLabel.innerText = "tuần " + globalFilter.innerText;
-                    if(customerLabelTm) customerLabelTm.innerText = "tuần " + globalFilter.innerText;
-                });
-                observer.observe(globalFilter, { childList: true, subtree: true, characterData: true });
-            }
-
-            renderCharts();
-            initGscIntegration();
-
-            // Keyword Tabs logic
-            const kwTabs = document.querySelectorAll('.kw-tab');
-            kwTabs.forEach(tab => {
-                tab.addEventListener('click', (e) => {
-                    kwTabs.forEach(t => {
-                        t.classList.remove('bg-green-100', 'text-green-800');
-                        t.classList.add('text-gray-600', 'hover:bg-gray-100');
-                    });
-                    e.target.classList.remove('text-gray-600', 'hover:bg-gray-100');
-                    e.target.classList.add('bg-green-100', 'text-green-800');
-                    
-                    const siteId = e.target.getAttribute('data-site');
-                    loadKeywordData(siteId);
-                });
-            });
-            loadKeywordData('kw1');
-
-
-            
-            // Sector Tabs handler
-            const sectorTabs = document.querySelectorAll('.sector-tab');
-            const sectorMohinh = document.getElementById('sector-view-mohinh');
-            const sectorUpdating = document.getElementById('sector-view-updating');
-
-            sectorTabs.forEach(tab => {
-                tab.addEventListener('click', (e) => {
-                    // Reset styling
-                    sectorTabs.forEach(t => {
-                        t.className = 'sector-tab px-5 sm:px-8 py-2 sm:py-3 rounded-full font-bold text-sm sm:text-base border-2 border-gray-200 text-gray-500 hover:border-gray-300 hover:text-gray-700 bg-white shadow-sm transition-all whitespace-nowrap';
-                    });
-                    
-                    // Active style for selected
-                    e.target.className = 'sector-tab px-5 sm:px-8 py-2 sm:py-3 rounded-full font-bold text-sm sm:text-base border-2 border-sa-gold bg-sa-gold text-white shadow-md transition-all whitespace-nowrap';
-                    
-                    const sectorTarget = e.target.getAttribute('data-sector');
-                    const sectorThuongmai = document.getElementById('sector-view-thuongmai');
-                    const sectorGolf = document.getElementById('sector-view-golf');
-                    
-                    sectorMohinh.classList.add('hidden');
-                    sectorMohinh.classList.remove('block');
-                    if (sectorThuongmai) {
-                        sectorThuongmai.classList.add('hidden');
-                        sectorThuongmai.classList.remove('block');
-                    }
-                    if (sectorGolf) {
-                        sectorGolf.classList.add('hidden');
-                        sectorGolf.classList.remove('block');
-                    }
-                    sectorUpdating.classList.add('hidden');
-                    sectorUpdating.classList.remove('flex');
-                    
-                    if (sectorTarget === 'mohinh') {
-                        sectorMohinh.classList.remove('hidden');
-                        sectorMohinh.classList.add('block');
-                    } else if (sectorTarget === 'thuongmai') {
-                        if (sectorThuongmai) {
-                            sectorThuongmai.classList.remove('hidden');
-                            sectorThuongmai.classList.add('block');
-                            setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 10);
-                        }
-                    } else if (sectorTarget === 'golf') {
-                        if (sectorGolf) {
-                            sectorGolf.classList.remove('hidden');
-                            sectorGolf.classList.add('block');
-                        }
-                    } else {
-                        sectorUpdating.classList.remove('hidden');
-                        sectorUpdating.classList.add('flex');
-                    }
-                });
-            });
-
-// Navigation handler
-            const navItems = document.querySelectorAll('.nav-item');
-            const views = {
+            // --- UNIFIED NAVIGATION LOGIC ---
+            const mainViews = {
                 'view-overview': document.getElementById('view-overview'),
                 'view-keyword': document.getElementById('view-keyword'),
+                'view-gsc': document.getElementById('view-gsc'),
                 'view-updating': document.getElementById('view-updating')
             };
 
-            navItems.forEach(item => {
+            function switchView(targetId) {
+                // Hide all main views
+                Object.values(mainViews).forEach(view => {
+                    if (view) {
+                        view.classList.add('hidden');
+                        view.classList.remove('block', 'flex');
+                    }
+                });
+
+                // Reset nav items
+                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('nav-active'));
+
+                // Show target view
+                const targetView = mainViews[targetId] || mainViews['view-updating'];
+                if (targetView) {
+                    targetView.classList.remove('hidden');
+                    const displayStyle = (targetId === 'view-updating') ? 'flex' : 'block';
+                    targetView.classList.add(displayStyle);
+                }
+
+                // Activate nav item
+                const activeNav = document.querySelector(`.nav-item[data-target="${targetId}"]`);
+                if (activeNav) activeNav.classList.add('nav-active');
+
+                // Special Initializations
+                if (targetId === 'view-gsc') {
+                    initGscReport();
+                } else if (targetId === 'view-overview') {
+                    renderCharts(); // Ensure overview charts are ready
+                }
+
+                // Scroll to top on mobile
+                if (window.innerWidth < 1024) {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            }
+
+            document.querySelectorAll('.nav-item').forEach(item => {
                 item.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    
-                    // Reset all nav items
-                    navItems.forEach(nav => {
-                        nav.classList.remove('nav-active');
-                    });
-
-                    // Set active class
-                    item.classList.add('nav-active');
-
-                    // Hide all views
-                    Object.values(views).forEach(view => {
-                        if (view) {
-                            view.classList.add('hidden');
-                            view.classList.remove('block', 'flex');
-                        }
-                    });
-
-                    // Show target view
-                    const targetId = item.getAttribute('data-target');
-                    if (views[targetId]) {
-                        views[targetId].classList.remove('hidden');
-                        if (targetId === 'view-overview') {
-                             views[targetId].classList.add('block');
-                        } else if (targetId === 'view-updating') {
-                             views[targetId].classList.add('flex');
-                        }
+                    const target = item.getAttribute('data-target');
+                    if (target) {
+                        e.preventDefault();
+                        switchView(target);
                     }
+                });
+            });
+
+            // --- SECTOR TABS (OVERVIEW) ---
+            const sectorTabs = document.querySelectorAll('.sector-tab');
+            const sectorViews = {
+                'mohinh': document.getElementById('sector-view-mohinh'),
+                'thuongmai': document.getElementById('sector-view-thuongmai'),
+                'golf': document.getElementById('sector-view-golf'),
+                'updating': document.getElementById('sector-view-updating')
+            };
+
+            sectorTabs.forEach(tab => {
+                tab.addEventListener('click', (e) => {
+                    const target = e.target.getAttribute('data-sector');
                     
-                    // Smooth scroll to top when changing views on mobile
-                    if (window.innerWidth < 1024) {
-                        window.scrollTo({
-                            top: 0,
-                            behavior: 'smooth'
-                        });
+                    // Style reset
+                    sectorTabs.forEach(t => {
+                        t.className = 'sector-tab px-5 sm:px-8 py-2 sm:py-3 rounded-full font-bold text-sm sm:text-base border-2 border-gray-200 text-gray-500 hover:border-gray-300 hover:text-gray-700 bg-white shadow-sm transition-all whitespace-nowrap';
+                    });
+                    e.target.className = 'sector-tab px-5 sm:px-8 py-2 sm:py-3 rounded-full font-bold text-sm sm:text-base border-2 border-sa-gold bg-sa-gold text-white shadow-md transition-all whitespace-nowrap';
+
+                    // Show view
+                    Object.values(sectorViews).forEach(v => {
+                        if (v) { v.classList.add('hidden'); v.classList.remove('block', 'flex'); }
+                    });
+                    
+                    const activeSector = sectorViews[target] || sectorViews['updating'];
+                    if (activeSector) {
+                        activeSector.classList.remove('hidden');
+                        activeSector.classList.add(target === 'updating' ? 'flex' : 'block');
                     }
+                });
+            });
+
+            // --- DETAILED GSC REPORT LOGIC ---
+            let gscReportDataLoaded = false;
+            let gscReportChartInstance = null;
+
+            async function initGscReport() {
+                if (gscReportDataLoaded) return;
+                try {
+                    const response = await fetch('gsc_dashboard_data.json');
+                    window.gscReportFullData = await response.json();
+                    gscReportDataLoaded = true;
+                    setupGscReportEvents();
+                    renderGscReport(document.getElementById('gsc-report-site-selector').value);
+                } catch (err) {
+                    console.error('Failed to load GSC report data:', err);
+                }
+            }
+
+            function setupGscReportEvents() {
+                document.getElementById('gsc-report-site-selector').addEventListener('change', (e) => {
+                    renderGscReport(e.target.value);
+                });
+                document.getElementById('btn-export-gsc-pdf').addEventListener('click', handleGscReportExportPDF);
+            }
+
+            function renderGscReport(siteUrl) {
+                const data = window.gscReportFullData[siteUrl];
+                const noData = document.getElementById('gsc-report-no-data');
+                const content = document.getElementById('gsc-report-content');
+
+                if (!data) {
+                    noData.classList.remove('hidden');
+                    if(content) content.classList.add('opacity-30', 'pointer-events-none');
+                    return;
+                }
+
+                noData.classList.add('hidden');
+                if(content) content.classList.remove('opacity-30', 'pointer-events-none');
+
+                document.getElementById('gsc-report-period-label').textContent = data.period_label;
+                document.getElementById('gsc-report-total-clicks').textContent = data.metrics.clicks.total;
+                document.getElementById('gsc-report-total-impressions').textContent = data.metrics.impressions.total;
+                document.getElementById('gsc-report-avg-ctr').textContent = data.metrics.ctr.total;
+                document.getElementById('gsc-report-avg-position').textContent = '#' + data.metrics.position.total;
+
+                updateGscReportTrend('gsc-report-trend-clicks', data.metrics.clicks.trend);
+                updateGscReportTrend('gsc-report-trend-impressions', data.metrics.impressions.trend);
+                updateGscReportTrend('gsc-report-trend-ctr', data.metrics.ctr.trend);
+                updateGscReportTrend('gsc-report-trend-position', data.metrics.position.trend, true);
+
+                renderGscReportChart(data.daily_stats);
+
+                const maxV = Math.max(data.search_types.web, data.search_types.image, data.search_types.video, 1);
+                document.getElementById('gsc-report-web-clicks').textContent = data.search_types.web;
+                document.getElementById('gsc-report-image-clicks').textContent = data.search_types.image;
+                document.getElementById('gsc-report-video-clicks').textContent = data.search_types.video;
+                document.getElementById('gsc-report-web-bar').style.width = (data.search_types.web / maxV * 100) + '%';
+                document.getElementById('gsc-report-image-bar').style.width = (data.search_types.image / maxV * 100) + '%';
+                document.getElementById('gsc-report-video-bar').style.width = (data.search_types.video / maxV * 100) + '%';
+
+                const countryContainer = document.getElementById('gsc-report-country-list');
+                countryContainer.innerHTML = '';
+                data.top_countries.forEach(c => {
+                    const d = document.createElement('div');
+                    d.className = 'flex justify-between items-center text-xs';
+                    d.innerHTML = `<span class="text-gray-500 uppercase font-bold text-[10px]">${c.country}</span><span class="font-bold text-gray-900">${c.clicks}</span>`;
+                    countryContainer.appendChild(d);
+                });
+
+                const qBody = document.getElementById('gsc-report-query-table-body');
+                qBody.innerHTML = '';
+                data.top_queries.forEach(q => {
+                    const tr = document.createElement('tr');
+                    tr.className = 'hover:bg-gray-50 border-b border-gray-50 transition-colors';
+                    tr.innerHTML = `<td class="px-6 py-3 font-medium text-gray-700 text-xs sm:text-sm">${q.query}</td><td class="px-6 py-3 text-right font-bold text-sa-gold text-xs sm:text-sm">${q.clicks}</td><td class="px-6 py-3 text-right text-gray-400 text-xs sm:text-sm">${q.impressions}</td>`;
+                    qBody.appendChild(tr);
+                });
+
+                const pBody = document.getElementById('gsc-report-page-table-body');
+                pBody.innerHTML = '';
+                data.top_pages.forEach(p => {
+                    const tr = document.createElement('tr');
+                    tr.className = 'hover:bg-gray-50 border-b border-gray-50 transition-colors';
+                    const sUrl = p.page.replace(siteUrl, '/');
+                    tr.innerHTML = `<td class="px-6 py-3 font-medium text-blue-500 truncate max-w-[200px] text-xs sm:text-sm" title="${p.page}">${sUrl}</td><td class="px-6 py-3 text-right font-bold text-gray-900 text-xs sm:text-sm">${p.clicks}</td>`;
+                    pBody.appendChild(tr);
+                });
+
+                const aiPts = {
+                    'https://mohinhkientruc.org/': ["Website duy trì vị trí top đầu cho các từ khóa ngách về 'sa bàn'.", "Tín hiệu từ Hình ảnh khá tích cực, cần tối ưu thêm Alt text.", "Tập trung tối ưu thêm vị trí cho các dự án chung cư mới.", "Đề xuất viết thêm bài hướng dẫn để tận dụng traffic thông tin."],
+                    'https://architecturalmodel.org/': ["Trang web tiếng Anh đang có sự ổn định ở thị trường quốc tế.", "Cần kiểm tra lại các liên kết gãy từ các trang dự án cũ.", "Tối ưu hóa tốc độ tải trang cho người dùng nước ngoài.", "Cập nhật thêm các dự án quy mô lớn để thu hút đối tác quốc tế."],
+                    'https://mohinhsonganh.com/': ["Trang web vệ tinh đang có bước nhảy vọt về lưu lượng truy cập.", "Lượt nhấp tập trung nhiều vào trang chủ, cần điều hướng sâu hơn.", "Tối ưu lại giao diện di động để giảm tỷ lệ thoát (bounce rate).", "Thêm các nút Call to Action (CTA) tại các trang mô hình đặc thù."]
+                };
+                const pts = aiPts[siteUrl] || aiPts['https://mohinhkientruc.org/'];
+                document.getElementById('gsc-ai-1').textContent = pts[0];
+                document.getElementById('gsc-ai-2').textContent = pts[1];
+                document.getElementById('gsc-ai-3').textContent = pts[2];
+                document.getElementById('gsc-ai-4').textContent = pts[3];
+            }
+
+            function updateGscReportTrend(id, val, isP = false) {
+                const el = document.getElementById(id);
+                if (!el) return;
+                el.textContent = val;
+                if (val.includes('↓')) { el.className = isP ? 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-green-100 text-green-700' : 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-100 text-red-700'; }
+                else if (val.includes('↑')) { el.className = isP ? 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-100 text-red-700' : 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-green-100 text-green-700'; }
+                else { el.className = 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-gray-100 text-gray-600'; }
+            }
+
+            function renderGscReportChart(hist) {
+                const ctx = document.getElementById('gsc-report-main-chart').getContext('2d');
+                if (gscReportChartInstance) gscReportChartInstance.destroy();
+                const labels = hist.map(h => { const d = h.date.split('-'); return d[2] + '/' + d[1]; });
+                const clicks = hist.map(h => h.clicks);
+                gscReportChartInstance = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Lượt nhấp',
+                            data: clicks,
+                            borderColor: '#D4AF37',
+                            backgroundColor: 'rgba(212, 175, 55, 0.1)',
+                            fill: true, tension: 0.4, borderWidth: 3, pointBackgroundColor: '#fff', pointBorderColor: '#D4AF37', pointRadius: 4, hoverRadius: 6
+                        }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: '#f3f4f6' } }, x: { grid: { display: false } } } }
+                });
+            }
+
+            async function handleGscReportExportPDF(e) {
+                const btn = e.currentTarget;
+                const orig = btn.innerHTML;
+                btn.innerHTML = `<span class="animate-spin mr-2">⏳</span> Processing...`;
+                btn.disabled = true;
+                try {
+                    const el = document.getElementById('view-gsc');
+                    const canvas = await html2canvas(el, { scale: 2, useCORS: true, backgroundColor: '#f9fafb' });
+                    const img = canvas.toDataURL('image/jpeg', 0.95);
+                    const { jsPDF } = window.jspdf;
+                    const pdf = new jsPDF({ orientation: 'portrait', unit: 'px', format: [canvas.width, canvas.height] });
+                    pdf.addImage(img, 'JPEG', 0, 0, canvas.width, canvas.height);
+                    const sName = document.getElementById('gsc-report-site-selector').value.split('//')[1].replace('/', '');
+                    pdf.save(`GSC_Report_${sName}_${new Date().toLocaleDateString()}.pdf`);
+                } catch (err) {
+                    console.error(err);
+                    alert('Lỗi khi xuất PDF.');
+                } finally {
+                    btn.innerHTML = orig;
+                    btn.disabled = false;
+                }
+            }
+
+            // --- INITIALIZATION ---
+            switchView('view-overview');
+
+            const globalF = document.getElementById('global-time-filter');
+            const cLb = document.getElementById('customer-time-label');
+            const cLbTm = document.getElementById('customer-time-label-tm');
+            if (globalF) {
+                const upLabels = () => {
+                    if(cLb) cLb.innerText = "tuần " + globalF.innerText;
+                    if(cLbTm) cLbTm.innerText = "tuần " + globalF.innerText;
+                };
+                upLabels();
+                new MutationObserver(upLabels).observe(globalF, { childList: true, characterData: true, subtree: true });
+            }
+
+            initGscIntegration();
+            loadKeywordData('kw1');
+
+            const kwTbs = document.querySelectorAll('.kw-tab');
+            kwTbs.forEach(t => {
+                t.addEventListener('click', (e) => {
+                    kwTbs.forEach(x => {
+                        x.classList.remove('bg-green-100', 'text-green-800');
+                        x.classList.add('text-gray-600', 'hover:bg-gray-100');
+                    });
+                    e.target.classList.remove('text-gray-600', 'hover:bg-gray-100');
+                    e.target.classList.add('bg-green-100', 'text-green-800');
+                    loadKeywordData(e.target.getAttribute('data-site'));
                 });
             });
         });
