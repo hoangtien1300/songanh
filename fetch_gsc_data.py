@@ -34,7 +34,7 @@ def fetch_data(service, site_url, start_date, end_date):
         'rowLimit': 1000
     }
     try:
-        response = service.searchanalytics().query(siteProperty=site_url, body=request).execute()
+        response = service.searchanalytics().query(siteUrl=site_url, body=request).execute()
         return response.get('rows', [])
     except Exception as e:
         print(f"Error fetching data for {site_url}: {e}")
@@ -58,7 +58,7 @@ def fetch_details(service, site_url, start_date, end_date):
             'rowLimit': 10
         }
         try:
-            response = service.searchanalytics().query(siteProperty=site_url, body=request).execute()
+            response = service.searchanalytics().query(siteUrl=site_url, body=request).execute()
             results[key] = response.get('rows', [])
         except:
             results[key] = []
@@ -68,7 +68,7 @@ def fetch_details(service, site_url, start_date, end_date):
     for s_type in ['web', 'image', 'video']:
         try:
             req = {'startDate': start_date, 'endDate': end_date, 'type': s_type}
-            resp = service.searchanalytics().query(siteProperty=site_url, body=req).execute()
+            resp = service.searchanalytics().query(siteUrl=site_url, body=req).execute()
             rows = resp.get('rows', [])
             search_types[s_type] = sum(r['clicks'] for r in rows) if rows else 0
         except:
