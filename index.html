@@ -84,7 +84,7 @@
                 </div>
             </div>
             <div class="text-xs sm:text-sm bg-gray-800 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-gray-700">
-                🗓️ Tuần: <span class="font-semibold text-sa-gold" id="global-time-filter">29/03 - 04/04</span>
+                🗓️ Tuần: <span class="font-semibold text-sa-gold" id="global-time-filter">30/3 - 4/4</span>
             </div>
         </div>
     </header>
@@ -231,8 +231,8 @@
                     <div class="mb-5 flex-grow">
                         <p class="text-[10px] sm:text-xs text-gray-500 uppercase font-semibold gsc-metric-label">Tổng số Nhấp</p>
                         <div class="flex justify-between items-baseline mt-1">
-                            <h3 class="text-2xl sm:text-3xl font-extrabold text-blue-700 gsc-total-val" id="total-w3">--</h3>
-                            <span class="text-xs font-semibold px-2 py-1 rounded bg-green-100 text-green-700 gsc-trend transition-colors" id="trend-w3">--%</span>
+                            <h3 class="text-xl sm:text-2xl font-extrabold text-gray-400 gsc-total-val" id="total-w3">Đang lấy dữ liệu</h3>
+                            <span class="hidden text-xs font-semibold px-2 py-1 rounded bg-green-100 text-green-700 gsc-trend transition-colors" id="trend-w3">--%</span>
                         </div>
                     </div>
                     <!-- Chart Canvas -->
@@ -808,7 +808,7 @@
             document.querySelectorAll('.kw-val').forEach(el => el.innerText = '...');
             
             if (kwCachedData[siteId]) {
-                renderKeywordData(kwCachedData[siteId]);
+                renderKeywordData(kwCachedData[siteId], siteId);
                 return;
             }
 
@@ -823,7 +823,7 @@
                             return;
                         }
                         kwCachedData[siteId] = results.data;
-                        renderKeywordData(results.data);
+                        renderKeywordData(results.data, siteId);
                     },
                     error: function() {
                         tryProxyFallbackKw(siteId);
@@ -840,12 +840,20 @@
                 skipEmptyLines: true,
                 complete: function(results) {
                     kwCachedData[siteId] = results.data;
-                    renderKeywordData(results.data);
+                    renderKeywordData(results.data, siteId);
                 }
             });
         }
 
-        function renderKeywordData(dataArray) {
+        function renderKeywordData(dataArray, siteId) {
+            if (siteId === 'kw2' || siteId === 'kw3') {
+                document.getElementById('kw-total').innerText = 'Đang build';
+                document.getElementById('kw-top3').innerText = 'Đang build';
+                document.getElementById('kw-top10').innerText = 'Đang build';
+                document.getElementById('kw-up').innerText = 'Đang build';
+                return;
+            }
+
             if (!dataArray || dataArray.length === 0) {
                 document.getElementById('kw-total').innerText = '0';
                 document.getElementById('kw-top3').innerText = '0';
@@ -980,12 +988,22 @@
 
             Object.entries(sites).forEach(([id, url]) => {
                 const siteData = gscSiteData[url];
-                if (!siteData) return;
+                if (!siteData) {
+                    if (id === 'w3') {
+                        document.getElementById(`total-${id}`).innerText = 'Đang lấy dữ liệu';
+                        document.getElementById(`total-${id}`).className = 'text-xl sm:text-2xl font-extrabold text-gray-400 gsc-total-val';
+                        const trendEl = document.getElementById(`trend-${id}`);
+                        if (trendEl) trendEl.classList.add('hidden');
+                    }
+                    return;
+                }
 
                 const metricData = siteData.metrics[metric];
                 document.getElementById(`total-${id}`).innerText = metricData.total;
+                document.getElementById(`total-${id}`).className = 'text-2xl sm:text-3xl font-extrabold text-blue-700 gsc-total-val';
                 const trendEl = document.getElementById(`trend-${id}`);
                 trendEl.innerText = metricData.trend;
+                trendEl.classList.remove('hidden');
                 
                 const isPositive = metricData.trend.includes('↑');
                 const isGood = (metric === 'position') ? !isPositive : isPositive;
@@ -1307,7 +1325,10 @@
             }
 
             initGscIntegration();
-            loadKeywordData('kw1');
+            loadKeywordData('kw1'); // Default to mohinhkientruc.org
+            
+            // Initial call for GSC to ensure placeholders are set if data is missing
+            renderGscView('clicks'); 
 
             const kwTbs = document.querySelectorAll('.kw-tab');
             kwTbs.forEach(t => {
